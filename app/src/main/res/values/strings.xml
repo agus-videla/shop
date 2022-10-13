@@ -1,11 +1,17 @@
 <resources>
     <string name="app_name">Shop</string>
+    <string-array name="sort_by">
+        <item>Price</item>
+        <item>Name</item>
+        <item>Relevance</item>
+    </string-array>
     <string name="product_image">Product Image</string>
     <string name="shopping_cart">Shopping Cart</string>
     <string name="filters">Filters</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="checkout">Checkout</string>
     <string name="your_cart">Your Cart</string>
     <string name="final_price">Final Price:</string>
+    <string name="sort_by">Sort By:</string>
+    <string name="change_sorting_order">Change Sorting Order</string>
 </resources>

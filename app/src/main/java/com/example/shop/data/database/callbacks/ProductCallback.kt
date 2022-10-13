@@ -18,6 +18,7 @@ class ProductCallback(
 
     override fun onOpen(db: SupportSQLiteDatabase) {
         super.onCreate(db)
+        Log.d("PRODUCT CALLBACK", "Populating Database")
         applicationScope.launch(Dispatchers.IO) {
             populateDatabase()
         }
@@ -37,10 +38,10 @@ class ProductCallback(
         provider.get().insertProduct(product)
         product = Product(
             0,
-            "Sweter",
+            "Winter Sweater",
             3000L,
             20,
-            "winter sweter",
+            "winter sweater",
             "some.url",
             1
         )

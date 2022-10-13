@@ -1,8 +1,9 @@
 package com.example.shop.data
 
+import android.util.Log
 import com.example.shop.data.database.dao.CategoryDao
 import com.example.shop.data.database.dao.ProductDao
-import kotlinx.coroutines.coroutineScope
+import com.example.shop.data.database.entities.Product
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -47,5 +48,16 @@ class ShopRepository @Inject constructor(
         cartItems.removeIf {
             it.product.id == id
         }
+    }
+
+    fun getProductsSortedBy(selection: String, sortOrder: Boolean): Flow<List<Product>> {
+        var columnName = ""
+        when(selection) {
+            "Price" -> columnName = "price"
+            "Name" -> columnName = "name"
+            "Relevance" -> columnName = "random"
+        }
+        Log.d("REPOSITORY", "sorting by $columnName")
+        return productDao.getProductsSortedBy(columnName, sortOrder)
     }
 }

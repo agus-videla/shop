@@ -14,7 +14,9 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repository: ShopRepository,
 ) : ViewModel() {
-
+    private val sortBy = MutableLiveData<String>("Price")
+    private val _sortOrder = MutableLiveData<Boolean>(false)
+    val sortOrder get() = _sortOrder
     private val _productList = MutableLiveData<List<Product>>()
     val products get() = _productList
 
@@ -29,6 +31,24 @@ class MainViewModel @Inject constructor(
     fun addToCart(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addToCart(id)
+        }
+    }
+
+    fun changeSortOrder() {
+        _sortOrder.value = !_sortOrder.value!!
+        getProductsSorted()
+    }
+
+    fun sortBy(selection: String) {
+        sortBy.value = selection
+        getProductsSorted()
+    }
+
+    fun getProductsSorted() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getProductsSortedBy(sortBy.value ?: "Price", sortOrder.value ?: false).collect {
+                _productList.postValue(it)
+            }
         }
     }
 }
