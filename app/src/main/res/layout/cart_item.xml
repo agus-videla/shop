@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp">
+
+    <ImageView
+        android:id="@+id/ivProduct"
+        android:layout_width="70dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/mountain_jacket_foreground" />
+
+    <TextView
+        android:id="@+id/tvId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/ivProduct"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="001123452" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        app:layout_constraintStart_toEndOf="@id/ivProduct"
+        app:layout_constraintTop_toBottomOf="@id/tvId"
+        tools:text="Mountain Jacket" />
+
+    <TextView
+        android:id="@+id/QuantityTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quantity:"
+        app:layout_constraintBottom_toBottomOf="@id/ivProduct"
+        app:layout_constraintStart_toEndOf="@id/ivProduct" />
+
+    <ImageButton
+        android:id="@+id/btnMinus"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_minus"
+        app:layout_constraintBottom_toBottomOf="@id/QuantityTitle"
+        app:layout_constraintStart_toEndOf="@id/QuantityTitle"
+        app:layout_constraintTop_toTopOf="@id/QuantityTitle" />
+
+    <TextView
+        android:id="@+id/tvQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnMinus"
+        app:layout_constraintEnd_toStartOf="@id/btnAdd"
+        app:layout_constraintStart_toEndOf="@id/btnMinus"
+        app:layout_constraintTop_toTopOf="@id/btnMinus"
+        tools:text="2" />
+
+    <ImageButton
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_plus"
+        app:layout_constraintBottom_toBottomOf="@id/QuantityTitle"
+        app:layout_constraintStart_toEndOf="@id/tvQuantity"
+        app:layout_constraintTop_toTopOf="@id/QuantityTitle" />
+
+    <ImageButton
+        android:id="@+id/btnRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_baseline_close_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivProduct"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="25000 ARS" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

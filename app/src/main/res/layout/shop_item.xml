@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cl"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="0dp">
+
+    <ImageView
+        android:id="@+id/ivProduct"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/product_image"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@id/horizontalBottom"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintDimensionRatio="1:2"
+        tools:src="@mipmap/mountain_jacket_foreground" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontalBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="366dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontalTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.16" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/vertical"
+        app:layout_constraintTop_toBottomOf="@id/horizontalBottom"
+        tools:text="Campera de Montaña" />
+
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        tools:text="25000 ARS" />
+
+    <ImageButton
+        android:id="@+id/btnBuy"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:padding="14dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/shopping_bag"
+        app:layout_constraintBottom_toBottomOf="@id/tvPrice"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintLeft_toRightOf="@id/vertical"
+        app:layout_constraintRight_toRightOf="@id/ivProduct"
+        app:layout_constraintTop_toBottomOf="@id/horizontalBottom"
+        app:tint="#9F9F9F" />
+
+    <ImageButton
+        android:id="@+id/btnFavourite"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="15dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/favourite"
+        app:layout_constraintBottom_toTopOf="@id/horizontalTop"
+        app:layout_constraintLeft_toRightOf="@id/vertical"
+        app:layout_constraintRight_toRightOf="@id/ivProduct"
+        app:layout_constraintTop_toTopOf="@id/ivProduct"
+        app:tint="#9F9F9F" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

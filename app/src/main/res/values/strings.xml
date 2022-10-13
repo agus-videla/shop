@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Shop</string>
+    <string name="product_image">Product Image</string>
+    <string name="shopping_cart">Shopping Cart</string>
+    <string name="filters">Filters</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="checkout">Checkout</string>
+    <string name="your_cart">Your Cart</string>
+    <string name="final_price">Final Price:</string>
+</resources>
