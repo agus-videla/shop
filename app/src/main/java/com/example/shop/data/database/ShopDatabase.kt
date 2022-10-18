@@ -9,7 +9,7 @@ import com.example.shop.data.database.entities.Product
 
 @Database(
     entities = [Product::class, Category::class],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 abstract class ShopDatabase : RoomDatabase() {

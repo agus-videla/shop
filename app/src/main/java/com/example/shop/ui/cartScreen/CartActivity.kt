@@ -1,11 +1,13 @@
 package com.example.shop.ui.cartScreen
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.databinding.ActivityCartBinding
+import com.example.shop.ui.ShippingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,7 +21,15 @@ class CartActivity : AppCompatActivity() {
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.items.observe(this, Observer { cartItems ->
+        initRecyclerView()
+
+        binding.btnCheckout.setOnClickListener {
+            openShippingActivity()
+        }
+    }
+
+    private fun initRecyclerView() {
+        viewModel.items.observe(this) { cartItems ->
             adapter = CartItemAdapter(
                 cartItems,
                 { id, position -> onAddItem(id, position) },
@@ -28,8 +38,8 @@ class CartActivity : AppCompatActivity() {
             )
             binding.rvProducts.adapter = adapter
             binding.rvProducts.layoutManager = LinearLayoutManager(this)
-            binding.tvFinalPrice.text = cartItems.sumOf{ it.subTotal() }.toString()
-        })
+            binding.tvFinalPrice.text = cartItems.sumOf { it.subTotal() }.toString()
+        }
     }
 
     private fun onAddItem(id: Int, position: Int) {
@@ -45,6 +55,11 @@ class CartActivity : AppCompatActivity() {
     private fun onDeleteItem(id: Int, position: Int) {
         viewModel.deleteFromCart(id)
         adapter.notifyItemRemoved(position)
+    }
+
+    private fun openShippingActivity() {
+        val intent = Intent(this, ShippingActivity::class.java)
+        startActivity(intent)
     }
 
 }

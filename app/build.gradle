@@ -37,6 +37,9 @@ android {
         jvmTarget = '1.8'
     }
     namespace 'com.example.shop'
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -53,11 +56,15 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.6.0"
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.room:room-ktx:2.4.3"
+    implementation 'androidx.annotation:annotation:1.5.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     kapt "androidx.room:room-compiler:2.4.3"
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-android-compiler:2.44"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
+    //Maps
+    implementation "com.google.android.gms:play-services-maps:18.1.0"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation "androidx.room:room-testing:2.4.3"

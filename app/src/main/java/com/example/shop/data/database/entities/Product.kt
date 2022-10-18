@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
    foreignKeys = [ForeignKey(entity = Category::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("category_id"),
-        onDelete = ForeignKey.CASCADE)])
+        onDelete = ForeignKey.NO_ACTION)])
 class Product(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "name") val name: String,

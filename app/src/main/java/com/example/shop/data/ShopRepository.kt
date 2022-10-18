@@ -1,6 +1,5 @@
 package com.example.shop.data
 
-import android.util.Log
 import com.example.shop.data.database.dao.CategoryDao
 import com.example.shop.data.database.dao.ProductDao
 import com.example.shop.data.database.entities.Product
@@ -15,8 +14,6 @@ class ShopRepository @Inject constructor(
 ) {
 
     fun getCategories() = categoryDao.getCategories()
-
-    fun getProducts() = productDao.getProducts()
 
     fun getCartItems(): Flow<List<CartItem>> {
         return flow {
@@ -57,7 +54,6 @@ class ShopRepository @Inject constructor(
             "Name" -> columnName = "name"
             "Relevance" -> columnName = "random"
         }
-        Log.d("REPOSITORY", "sorting by $columnName")
         return productDao.getProductsSortedBy(columnName, sortOrder)
     }
 }

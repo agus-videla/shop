@@ -19,6 +19,10 @@ class CartViewModel @Inject constructor(
     val items get() = _items
 
     init {
+        getCartItems()
+    }
+
+    private fun getCartItems() {
         viewModelScope.launch {
             repository.getCartItems().collect {
                 _items.postValue(it)
@@ -30,18 +34,21 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.addToCart(id)
         }
+        getCartItems()
     }
 
     fun removeFromCart(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.removeFromCart(id)
         }
+        getCartItems()
     }
 
     fun deleteFromCart(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteFromCart(id)
         }
+        getCartItems()
     }
 
 }

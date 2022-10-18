@@ -8,10 +8,21 @@
     <string name="product_image">Product Image</string>
     <string name="shopping_cart">Shopping Cart</string>
     <string name="filters">Filters</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="checkout">Checkout</string>
     <string name="your_cart">Your Cart</string>
     <string name="final_price">Final Price:</string>
     <string name="sort_by">Sort By:</string>
     <string name="change_sorting_order">Change Sorting Order</string>
+    <string name="shipping">Shipping</string>
+    <string name="log_in">Log In</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="repeat_password">Repeat Password</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up_link">Sign Up!</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="log_in_link">Log In!</string>
 </resources>

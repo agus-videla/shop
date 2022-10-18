@@ -20,13 +20,7 @@ class MainViewModel @Inject constructor(
     private val _productList = MutableLiveData<List<Product>>()
     val products get() = _productList
 
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getProducts().collect {
-                _productList.postValue(it)
-            }
-        }
-    }
+    init { getProductsSorted() }
 
     fun addToCart(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -44,11 +38,12 @@ class MainViewModel @Inject constructor(
         getProductsSorted()
     }
 
-    fun getProductsSorted() {
+    private fun getProductsSorted() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getProductsSortedBy(sortBy.value ?: "Price", sortOrder.value ?: false).collect {
-                _productList.postValue(it)
-            }
+            repository.getProductsSortedBy(sortBy.value ?: "Price", sortOrder.value ?: false)
+                .collect {
+                    _productList.postValue(it)
+                }
         }
     }
 }
