@@ -1,7 +1,7 @@
 package com.example.shop.data
 
-import com.example.shop.data.database.dao.CategoryDao
-import com.example.shop.data.database.dao.ProductDao
+import android.util.Log
+import com.example.shop.data.database.dao.*
 import com.example.shop.data.database.entities.Product
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -10,6 +10,9 @@ import javax.inject.Inject
 class ShopRepository @Inject constructor(
     private val productDao: ProductDao,
     private val categoryDao: CategoryDao,
+    private val userDao: UserDao,
+    private val cartDao: CartDao,
+    private val cartItemDao: CartItemDao,
     private val cartItems: MutableList<CartItem> = mutableListOf()
 ) {
 
@@ -55,5 +58,9 @@ class ShopRepository @Inject constructor(
             "Relevance" -> columnName = "random"
         }
         return productDao.getProductsSortedBy(columnName, sortOrder)
+    }
+
+    suspend fun usernameAvailable(username: String): Boolean {
+        return (userDao.usernameExists(username) == null)
     }
 }

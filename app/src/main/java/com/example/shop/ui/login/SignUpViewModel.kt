@@ -3,10 +3,49 @@ package com.example.shop.ui.login
 import androidx.lifecycle.ViewModel
 import com.example.shop.data.ShopRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    val repository: ShopRepository
+    private val repository: ShopRepository,
 ) : ViewModel() {
+
+    private val _uiState = MutableStateFlow<uiState>(uiState())
+    val uiState: StateFlow<uiState> get() = _uiState.asStateFlow()
+
+    suspend fun validateData(username: String, password: String, repeat: String): Boolean {
+        return (username.length > 3 && password.length > 5 && password == repeat)
+    }
+
+    suspend fun validateUsername(username: CharSequence?) : Boolean {
+        return repository.usernameAvailable(username.toString())
+    }
+
+    fun isUserValid(b: Boolean) {
+        _uiState.update {
+            it.copy(isUserValid = b)
+        }
+    }
+
+    fun isPasswordValid(b: Boolean) {
+        _uiState.update {
+            it.copy(isPasswordValid = b)
+        }
+    }
+
+    fun arePasswordsEqual(b: Boolean) {
+        _uiState.update {
+            it.copy(arePasswordsEqual = b)
+        }
+    }
 }
+
+data class uiState(
+    var isUserValid: Boolean? = null,
+    var arePasswordsEqual: Boolean? = null,
+    var isPasswordValid: Boolean? = null
+)

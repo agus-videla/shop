@@ -5,10 +5,12 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.databinding.ActivityCartBinding
 import com.example.shop.ui.ShippingActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CartActivity : AppCompatActivity() {
@@ -21,15 +23,16 @@ class CartActivity : AppCompatActivity() {
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initRecyclerView()
-
+        lifecycleScope.launch {
+            initRecyclerView()
+        }
         binding.btnCheckout.setOnClickListener {
             openShippingActivity()
         }
     }
 
-    private fun initRecyclerView() {
-        viewModel.items.observe(this) { cartItems ->
+    private suspend fun initRecyclerView() {
+        viewModel.items.collect { cartItems ->
             adapter = CartItemAdapter(
                 cartItems,
                 { id, position -> onAddItem(id, position) },

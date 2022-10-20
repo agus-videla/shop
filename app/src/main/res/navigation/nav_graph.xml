@@ -25,5 +25,14 @@
             app:destination="@id/logInFragment"
             app:popUpTo="@id/signUpFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_signUpFragment_to_addInfoFragment"
+            app:destination="@id/addInfoFragment"
+            app:popUpTo="@id/addInfoFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addInfoFragment"
+        android:name="com.example.shop.ui.login.AddInfoFragment"
+        android:label="fragment_add_info"
+        tools:layout="@layout/fragment_add_info" />
 </navigation>

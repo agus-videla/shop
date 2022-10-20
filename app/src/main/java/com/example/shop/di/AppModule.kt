@@ -6,8 +6,7 @@ import com.example.shop.data.ShopRepository
 import com.example.shop.data.database.ShopDatabase
 import com.example.shop.data.database.callbacks.CategoryCallback
 import com.example.shop.data.database.callbacks.ProductCallback
-import com.example.shop.data.database.dao.CategoryDao
-import com.example.shop.data.database.dao.ProductDao
+import com.example.shop.data.database.dao.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +24,7 @@ object AppModule {
     fun provideShopDatabase(
         @ApplicationContext context: Context,
         categoryProvider: Provider<CategoryDao>,
-        productProvider: Provider<ProductDao>
+        productProvider: Provider<ProductDao>,
     ): ShopDatabase {
         return Room.databaseBuilder(
             context,
@@ -33,8 +32,8 @@ object AppModule {
             "shop_database"
         )
             .addCallback(CategoryCallback(categoryProvider))
-            .fallbackToDestructiveMigration()
             .addCallback(ProductCallback(productProvider))
+            .fallbackToDestructiveMigration()
             .build()
     }
 
@@ -46,9 +45,27 @@ object AppModule {
     @Provides
     fun provideCategoryDao(db: ShopDatabase) = db.categoryDao()
 
+    @Singleton
+    @Provides
+    fun provideUserDao(db: ShopDatabase) = db.userDao()
+
+    @Singleton
+    @Provides
+    fun provideCartDao(db: ShopDatabase) = db.cartDao()
+
+    @Singleton
+    @Provides
+    fun provideCartItemDao(db: ShopDatabase) = db.cartItemDao()
+
     @Provides
     @Singleton
-    fun provideRepository(productDao: ProductDao, categoryDao: CategoryDao): ShopRepository {
-        return ShopRepository(productDao, categoryDao)
+    fun provideRepository(
+        productDao: ProductDao,
+        categoryDao: CategoryDao,
+        userDao: UserDao,
+        cartDao: CartDao,
+        cartItemDao: CartItemDao,
+    ): ShopRepository {
+        return ShopRepository(productDao, categoryDao, userDao, cartDao, cartItemDao)
     }
 }
