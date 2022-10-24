@@ -18,8 +18,10 @@ import androidx.room.PrimaryKey
         onDelete = ForeignKey.NO_ACTION)],
 )
 class CartItem(
-    @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "product_id") val idProduct: Int,
     @ColumnInfo(name = "cart_id") val idCart: Int,
     @ColumnInfo(name = "quantity") val quantity: Int,
-)
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}

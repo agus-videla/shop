@@ -1,10 +1,9 @@
-package com.example.shop.ui.cartScreen
+package com.example.shop.ui.cart
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.databinding.ActivityCartBinding
@@ -31,8 +30,8 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun initRecyclerView() {
-        viewModel.items.collect { cartItems ->
+    private fun initRecyclerView() {
+        viewModel.items.observe(this) { cartItems ->
             adapter = CartItemAdapter(
                 cartItems,
                 { id, position -> onAddItem(id, position) },

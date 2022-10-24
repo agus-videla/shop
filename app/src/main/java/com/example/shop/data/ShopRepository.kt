@@ -1,10 +1,12 @@
 package com.example.shop.data
 
-import android.util.Log
 import com.example.shop.data.database.dao.*
 import com.example.shop.data.database.entities.Product
+import com.example.shop.data.database.entities.User
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ShopRepository @Inject constructor(
@@ -62,5 +64,17 @@ class ShopRepository @Inject constructor(
 
     suspend fun usernameAvailable(username: String): Boolean {
         return (userDao.usernameExists(username) == null)
+    }
+
+    suspend fun addUser(user: User) {
+        withContext(Dispatchers.IO) {
+            userDao.addUser(user)
+        }
+    }
+
+    suspend fun isValid(username: String, password: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            return@withContext userDao.getUser(username, password)!= null
+        }
     }
 }

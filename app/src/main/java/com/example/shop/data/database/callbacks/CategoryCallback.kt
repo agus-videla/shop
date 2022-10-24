@@ -27,7 +27,7 @@ class CategoryCallback(
     private suspend fun populateDatabase() {
         var category = Category(1,"Jackets")
         provider.get().insertCategory(category)
-        category = Category(2, "Trousers")
+        category = Category(2,"Trousers")
         provider.get().insertCategory(category)
     }
 }

@@ -1,4 +1,4 @@
-package com.example.shop.ui.cartScreen
+package com.example.shop.ui.cart
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -11,11 +11,13 @@ import androidx.room.PrimaryKey
         childColumns = arrayOf("category_id"),
         onDelete = ForeignKey.NO_ACTION)])
 class Product(
-    @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "price") val price: Long,
     @ColumnInfo(name = "stock") val stock: Int,
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "thumbnail") val thumbnail: String,
     @ColumnInfo(name = "category_id") val idCategory: Int
-)
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}

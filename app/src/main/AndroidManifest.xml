@@ -27,7 +27,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.mainScreen.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="false"/>
 
         <activity
@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.cartScreen.CartActivity"
+            android:name=".ui.cart.CartActivity"
             android:exported="true" />
     </application>
 

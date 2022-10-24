@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
-    @Query("SELECT * FROM User WHERE username == :username AND password_hash == :hash LIMIT 1")
-    fun getUser(username: String, hash: String) : Flow<User>
+    @Query("SELECT * FROM User WHERE username LIKE :username AND password_hash LIKE :hash LIMIT 1")
+    fun getUser(username: String, hash: String) : User?
 
     @Query("SELECT * FROM User WHERE id = :userId")
     fun getUser(userId: Int) : Flow<User>

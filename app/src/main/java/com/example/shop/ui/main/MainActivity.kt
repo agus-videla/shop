@@ -1,4 +1,4 @@
-package com.example.shop.ui.mainScreen
+package com.example.shop.ui.main
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -14,7 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.shop.R
 import com.example.shop.databinding.ActivityMainBinding
-import com.example.shop.ui.cartScreen.CartActivity
+import com.example.shop.ui.cart.CartActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.login.LogInFragment">
+    tools:context=".ui.login.login.LogInFragment">
 
     <TextView
         android:id="@+id/LogInText"
@@ -68,11 +68,11 @@
         android:text="@string/dont_have_an_account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintEnd_toStartOf="@id/tvLogIn"
+        app:layout_constraintEnd_toStartOf="@id/tvSignUp"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tvLogIn"
+        android:id="@+id/tvSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"

@@ -27,7 +27,6 @@ class ProductCallback(
     private suspend fun populateDatabase() {
         provider.get().deleteAll()
         var product = Product(
-            0,
             "Mountain Jacket",
             50000L,
             10,
@@ -37,7 +36,6 @@ class ProductCallback(
         )
         provider.get().insertProduct(product)
         product = Product(
-            0,
             "Winter Sweater",
             3000L,
             20,
@@ -47,7 +45,6 @@ class ProductCallback(
         )
         provider.get().insertProduct(product)
         product = Product(
-            0,
             "Jean",
             2000L,
             30,
@@ -57,7 +54,6 @@ class ProductCallback(
         )
         provider.get().insertProduct(product)
         product = Product(
-            0,
             "Shorts",
             1500L,
             30,

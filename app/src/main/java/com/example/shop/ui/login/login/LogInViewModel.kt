@@ -1,4 +1,4 @@
-package com.example.shop.ui.login
+package com.example.shop.ui.login.login
 
 import androidx.lifecycle.ViewModel
 import com.example.shop.data.ShopRepository
@@ -9,5 +9,8 @@ import javax.inject.Inject
 class LogInViewModel @Inject constructor(
     val repository: ShopRepository,
 ) : ViewModel() {
+    suspend fun isValid(username: String, password: String): Boolean {
+        return repository.isValid(username, password)
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.example.shop.ui.mainScreen
+package com.example.shop.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -11,10 +11,12 @@ import androidx.room.PrimaryKey
     childColumns = arrayOf("user_id"),
     onDelete = ForeignKey.NO_ACTION)])
 class Cart(
-    @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "user_id") val idUser: Int,
     @ColumnInfo(name = "status") val status: CartStatus
-)
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}
 
 enum class CartStatus {
     PENDING, CANCELLED, CHECKED_OUT

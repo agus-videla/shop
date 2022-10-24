@@ -2,14 +2,16 @@ package com.example.shop.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.shop.data.database.dao.*
 import com.example.shop.data.database.entities.*
 
 @Database(
     entities = [Product::class, Category::class, User::class, Cart::class, CartItem::class],
-    version = 7,
+    version = 8,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class ShopDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
     abstract fun categoryDao(): CategoryDao
