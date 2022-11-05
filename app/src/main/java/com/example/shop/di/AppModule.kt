@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.example.shop.data.ShopRepository
 import com.example.shop.data.database.ShopDatabase
+import com.example.shop.data.database.callbacks.CartCallback
+import com.example.shop.data.database.callbacks.CartItemCallback
 import com.example.shop.data.database.callbacks.CategoryCallback
 import com.example.shop.data.database.callbacks.ProductCallback
 import com.example.shop.data.database.dao.*
@@ -25,12 +27,16 @@ object AppModule {
         @ApplicationContext context: Context,
         categoryProvider: Provider<CategoryDao>,
         productProvider: Provider<ProductDao>,
+        cartItemProvider: Provider<CartItemDao>,
+        cartProvider: Provider<CartDao>
     ): ShopDatabase {
         return Room.databaseBuilder(
             context,
             ShopDatabase::class.java,
             "shop_database"
         )
+            .addCallback(CartItemCallback(cartItemProvider))
+            .addCallback(CartCallback(cartProvider))
             .addCallback(CategoryCallback(categoryProvider))
             .addCallback(ProductCallback(productProvider))
             .fallbackToDestructiveMigration()

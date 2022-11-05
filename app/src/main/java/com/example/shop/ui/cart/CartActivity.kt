@@ -25,6 +25,11 @@ class CartActivity : AppCompatActivity() {
         lifecycleScope.launch {
             initRecyclerView()
         }
+
+        viewModel.items.observe(this) { cartItems ->
+            binding.tvFinalPrice.text = cartItems.sumOf { it.subTotal() }.toString()
+        }
+
         binding.btnCheckout.setOnClickListener {
             openShippingActivity()
         }
@@ -40,7 +45,6 @@ class CartActivity : AppCompatActivity() {
             )
             binding.rvProducts.adapter = adapter
             binding.rvProducts.layoutManager = LinearLayoutManager(this)
-            binding.tvFinalPrice.text = cartItems.sumOf { it.subTotal() }.toString()
         }
     }
 

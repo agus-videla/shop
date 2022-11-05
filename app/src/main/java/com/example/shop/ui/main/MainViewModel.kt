@@ -20,7 +20,12 @@ class MainViewModel @Inject constructor(
     private val _productList = MutableLiveData<List<Product>>()
     val products get() = _productList
 
-    init { getProductsSorted() }
+    init {
+        viewModelScope.launch {
+            repository.setCart()
+        }
+        getProductsSorted()
+    }
 
     fun addToCart(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {

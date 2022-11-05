@@ -4,10 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shop.data.CartItem
 import com.example.shop.data.ShopRepository
+import com.example.shop.data.database.entities.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,8 +20,8 @@ class CartViewModel @Inject constructor(
     private val repository: ShopRepository,
 ) : ViewModel() {
 
-    private val _items = MutableLiveData<List<CartItem>>(emptyList())
-    val items : LiveData<List<CartItem>> get() = _items
+    private val _items = MutableLiveData<List<CartItemWithProduct>>()
+    val items: LiveData<List<CartItemWithProduct>> get() = _items
 
     init {
         getCartItems()
@@ -25,8 +29,12 @@ class CartViewModel @Inject constructor(
 
     private fun getCartItems() {
         viewModelScope.launch {
-            repository.getCartItems().collect {
-                _items.postValue(it)
+                repository.getCartItems().map {
+                    it.map { cartItem ->
+                        async { CartItemWithProduct(repository.getProduct(cartItem.idProduct).first(), cartItem.quantity) }
+                    }.awaitAll()
+                }.collect {
+                    _items.postValue(it)
             }
         }
     }
@@ -48,5 +56,13 @@ class CartViewModel @Inject constructor(
             repository.deleteFromCart(id)
         }
     }
+}
 
+data class CartItemWithProduct(
+    val product: Product,
+    val quantity: Int
+) {
+    fun subTotal(): Long {
+        return product.price * quantity
+    }
 }

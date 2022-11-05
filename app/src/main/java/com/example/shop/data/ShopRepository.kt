@@ -1,11 +1,9 @@
 package com.example.shop.data
 
 import com.example.shop.data.database.dao.*
-import com.example.shop.data.database.entities.Product
-import com.example.shop.data.database.entities.User
+import com.example.shop.data.database.entities.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -15,46 +13,46 @@ class ShopRepository @Inject constructor(
     private val userDao: UserDao,
     private val cartDao: CartDao,
     private val cartItemDao: CartItemDao,
-    private val cartItems: MutableList<CartItem> = mutableListOf()
 ) {
-
+    private var activeUserId: Int? = null
     fun getCategories() = categoryDao.getCategories()
 
-    fun getCartItems(): Flow<List<CartItem>> {
-        return flow {
-            emit(cartItems)
+    suspend fun getCartItems(): Flow<List<CartItem>> {
+        return withContext(Dispatchers.IO) {
+            val cartId = cartDao.getPendingCart(activeUserId!!)!!
+            return@withContext cartItemDao.getCartItems(cartId)
         }
     }
 
     suspend fun addToCart(id: Int) {
-        //if already in list add to quantity, if not add a new CartItem
-        cartItems.firstOrNull { it.product.id == id }?.let {
+        val cartId = cartDao.getPendingCart(activeUserId!!)!!
+        val cartItem = cartItemDao.getCartItem(cartId, id)
+        cartItem?.let {
             it.quantity++
+            cartItemDao.updateCartItem(it)
         } ?: run {
-            productDao.getProduct(id).collect {
-                cartItems.add(
-                    CartItem(it,1)
-                )
+            cartItemDao.addCartItem(CartItem(id, cartId, 1))
+        }
+    }
+
+    suspend fun removeFromCart(id: Int) {
+        val cartId = cartDao.getPendingCart(activeUserId!!)!!
+        val cartItem = cartItemDao.getCartItem(cartId, id)
+        cartItem?.let {
+            if (it.quantity > 1) {
+                it.quantity--
+                cartItemDao.updateCartItem(it)
             }
         }
     }
 
-    fun removeFromCart(id: Int) {
-        cartItems.first { it.product.id == id }.let {
-            if(it.quantity > 1)
-                it.quantity--
-        }
-    }
-
     fun deleteFromCart(id: Int) {
-        cartItems.removeIf {
-            it.product.id == id
-        }
+        cartItemDao.removeCartItem(id)
     }
 
     fun getProductsSortedBy(selection: String, sortOrder: Boolean): Flow<List<Product>> {
         var columnName = ""
-        when(selection) {
+        when (selection) {
             "Price" -> columnName = "price"
             "Name" -> columnName = "name"
             "Relevance" -> columnName = "random"
@@ -72,9 +70,28 @@ class ShopRepository @Inject constructor(
         }
     }
 
-    suspend fun isValid(username: String, password: String): Boolean {
+    suspend fun isValid(username: String, password: String): Int? {
         return withContext(Dispatchers.IO) {
-            return@withContext userDao.getUser(username, password)!= null
+            return@withContext userDao.getUser(username, password)
         }
+    }
+
+    fun setActiveUser(id: Int) {
+        activeUserId = id
+    }
+
+    suspend fun setCart() {
+        withContext(Dispatchers.IO) {
+            activeUserId?.let { userId ->
+                if (cartDao.getPendingCart(userId) == null)
+                    cartDao.addCart(Cart(userId, CartStatus.PENDING))
+            } ?: run {
+                throw Exception("No user is logged in")
+            }
+        }
+    }
+
+    fun getProduct(idProduct: Int): Flow<Product> {
+        return productDao.getProduct(idProduct)
     }
 }

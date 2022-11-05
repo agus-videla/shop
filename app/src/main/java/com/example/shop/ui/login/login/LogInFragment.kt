@@ -43,13 +43,14 @@ class LogInFragment : Fragment() {
 
         binding.btnLogIn.setOnClickListener {
             lifecycleScope.launch {
-                if (viewModel.isValid(
-                        binding.etUsername.text.toString(),
-                        digest(binding.etPassword.text.toString())
-                    )
-                ) {
+                val userId = viewModel.isValid(
+                    binding.etUsername.text.toString(),
+                    digest(binding.etPassword.text.toString())
+                )
+                userId?.let {
+                    viewModel.setActiveUser(it)
                     openMainActivity()
-                } else {
+                } ?: run {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@LogInFragment.context,
                             "Wrong username and password combination",

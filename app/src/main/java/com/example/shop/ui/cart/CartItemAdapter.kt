@@ -4,11 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shop.R
-import com.example.shop.data.CartItem
 import com.example.shop.databinding.CartItemBinding
 
 class CartItemAdapter(
-    private val items: List<CartItem>,
+    private val items: List<CartItemWithProduct>,
     private val onAddItem: (Int, Int) -> Unit,
     private val onRemoveItem: (Int, Int) -> Unit,
     private val onDeleteItem: (Int, Int) -> Unit,

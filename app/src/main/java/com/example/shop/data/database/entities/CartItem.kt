@@ -20,7 +20,7 @@ import androidx.room.PrimaryKey
 class CartItem(
     @ColumnInfo(name = "product_id") val idProduct: Int,
     @ColumnInfo(name = "cart_id") val idCart: Int,
-    @ColumnInfo(name = "quantity") val quantity: Int,
+    @ColumnInfo(name = "quantity") var quantity: Int,
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

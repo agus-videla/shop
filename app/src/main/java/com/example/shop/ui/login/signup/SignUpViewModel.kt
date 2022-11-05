@@ -17,10 +17,6 @@ class SignUpViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<uiState>(uiState())
     val uiState: StateFlow<uiState> get() = _uiState.asStateFlow()
 
-    suspend fun validateData(username: String, password: String, repeat: String): Boolean {
-        return (username.length > 3 && password.length > 5 && password == repeat)
-    }
-
     suspend fun validateUsername(username: CharSequence?) : Boolean {
         return repository.usernameAvailable(username.toString())
     }

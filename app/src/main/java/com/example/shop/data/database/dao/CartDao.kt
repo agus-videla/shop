@@ -10,12 +10,15 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CartDao {
-    @Query("SELECT * FROM Cart WHERE status == 'PENDING' AND user_id == :userId")
-    fun getPendingCart(userId: Int): Flow<Cart>
+    @Query("SELECT id FROM Cart WHERE status == 'PENDING' AND user_id == :userId")
+    fun getPendingCart(userId: Int): Int?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addCart(cart: Cart): Long
 
     @Update
     suspend fun updateCart(cart: Cart)
+
+    @Query("DELETE FROM Cart")
+    fun removeAll()
 }
