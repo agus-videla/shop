@@ -6,7 +6,7 @@
     app:startDestination="@id/signUpFragment">
     <fragment
         android:id="@+id/logInFragment"
-        android:name="com.example.shop.ui.login.login.LogInFragment"
+        android:name="com.example.shop.ui.login.LogInFragment"
         android:label="fragment_log_in"
         tools:layout="@layout/fragment_log_in" >
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.shop.ui.login.signup.SignUpFragment"
+        android:name="com.example.shop.ui.signup.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/addInfoFragment"
-        android:name="com.example.shop.ui.login.signup.AddInfoFragment"
+        android:name="com.example.shop.ui.signup.AddInfoFragment"
         android:label="fragment_add_info"
         tools:layout="@layout/fragment_add_info" >
         <argument

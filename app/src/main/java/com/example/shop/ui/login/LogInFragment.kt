@@ -1,4 +1,4 @@
-package com.example.shop.ui.login.login
+package com.example.shop.ui.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,8 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.shop.R
 import com.example.shop.databinding.FragmentLogInBinding
-import com.example.shop.ui.login.digest
-import com.example.shop.ui.main.MainActivity
+import com.example.shop.ui.digest
+import com.example.shop.ui.shop.ShopActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,7 +62,7 @@ class LogInFragment : Fragment() {
     }
 
     private fun openMainActivity() {
-        val intent = Intent(this.context, MainActivity::class.java)
+        val intent = Intent(this.context, ShopActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         this.activity?.finish()

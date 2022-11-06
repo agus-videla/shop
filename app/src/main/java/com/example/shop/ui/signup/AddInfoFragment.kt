@@ -1,4 +1,4 @@
-package com.example.shop.ui.login.signup
+package com.example.shop.ui.signup
 
 import android.content.pm.PackageManager
 import android.os.Bundle

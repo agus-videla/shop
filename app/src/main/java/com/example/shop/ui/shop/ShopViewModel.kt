@@ -1,4 +1,4 @@
-package com.example.shop.ui.main
+package com.example.shop.ui.shop
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class ShopViewModel @Inject constructor(
     private val repository: ShopRepository,
 ) : ViewModel() {
     private val sortBy = MutableLiveData<String>("Price")

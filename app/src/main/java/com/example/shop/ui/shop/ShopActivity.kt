@@ -1,4 +1,4 @@
-package com.example.shop.ui.main
+package com.example.shop.ui.shop
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -13,19 +13,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.shop.R
-import com.example.shop.databinding.ActivityMainBinding
+import com.example.shop.databinding.ActivityShopBinding
 import com.example.shop.ui.cart.CartActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class ShopActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityShopBinding
     private lateinit var adapter: ProductAdapter
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: ShopViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityShopBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initProductRecyclerView()
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val selection = adapterView?.getItemAtPosition(position).toString()
                 viewModel.sortBy(selection)
-                if(this@MainActivity::adapter.isInitialized)
+                if(this@ShopActivity::adapter.isInitialized)
                     adapter.notifyDataSetChanged()
             }
 

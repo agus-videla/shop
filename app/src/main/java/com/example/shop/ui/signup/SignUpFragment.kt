@@ -1,4 +1,4 @@
-package com.example.shop.ui.login.signup
+package com.example.shop.ui.signup
 
 import android.os.Bundle
 import android.text.Editable
@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.shop.R
 import com.example.shop.databinding.FragmentSignUpBinding
-import com.example.shop.ui.login.digest
+import com.example.shop.ui.digest
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

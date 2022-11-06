@@ -1,4 +1,4 @@
-package com.example.shop.ui.login
+package com.example.shop.ui
 
 import java.security.MessageDigest
 

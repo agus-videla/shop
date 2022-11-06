@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.shop.ShopActivity">
+
+    <Button
+        android:id="@+id/btnFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/ic_baseline_filter_alt_24"
+        android:text="@string/filters"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/SortByTitle"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="@string/sort_by"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/btnFilters"
+        app:layout_constraintEnd_toStartOf="@id/spSortBy"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spSortBy"
+        android:entries="@array/sort_by"
+        android:layout_width="wrap_content"
+        style="@style/spinnerItemStyle"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/btnSortOrder"
+        app:layout_constraintBottom_toBottomOf="@id/SortByTitle"
+        app:layout_constraintTop_toTopOf="@id/SortByTitle"/>
+
+    <ImageButton
+        android:id="@+id/btnSortOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/spSortBy"
+        app:layout_constraintTop_toTopOf="@id/spSortBy"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/ic_desc"
+        android:contentDescription="@string/change_sorting_order" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvProducts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnFilters"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:layout_editor_absoluteX="-5dp"
+        tools:listitem="@layout/shop_item"
+        tools:spanCount="2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
