@@ -4,10 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.shop.data.ShopRepository
 import com.example.shop.data.database.ShopDatabase
-import com.example.shop.data.database.callbacks.CartCallback
-import com.example.shop.data.database.callbacks.CartItemCallback
-import com.example.shop.data.database.callbacks.CategoryCallback
-import com.example.shop.data.database.callbacks.ProductCallback
+import com.example.shop.data.database.callbacks.*
 import com.example.shop.data.database.dao.*
 import dagger.Module
 import dagger.Provides
@@ -28,6 +25,7 @@ object AppModule {
         categoryProvider: Provider<CategoryDao>,
         productProvider: Provider<ProductDao>,
         cartItemProvider: Provider<CartItemDao>,
+        userProvider: Provider<UserDao>,
         cartProvider: Provider<CartDao>
     ): ShopDatabase {
         return Room.databaseBuilder(
@@ -35,6 +33,7 @@ object AppModule {
             ShopDatabase::class.java,
             "shop_database"
         )
+            .addCallback(UserCallback(userProvider))
             .addCallback(CartItemCallback(cartItemProvider))
             .addCallback(CartCallback(cartProvider))
             .addCallback(CategoryCallback(categoryProvider))

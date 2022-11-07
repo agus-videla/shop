@@ -8,7 +8,7 @@ import com.example.shop.data.database.entities.*
 
 @Database(
     entities = [Product::class, Category::class, User::class, Cart::class, CartItem::class],
-    version = 11,
+    version = 12,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

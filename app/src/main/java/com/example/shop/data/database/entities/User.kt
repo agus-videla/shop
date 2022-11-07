@@ -10,7 +10,7 @@ class User(
     @ColumnInfo(name = "username") val username: String,
     @ColumnInfo(name = "password_hash") val pass: String,
     @ColumnInfo(name = "address") val address: String?,
-    @ColumnInfo(name = "profile_picture") val pfp: Bitmap
+    @ColumnInfo(name = "profile_picture") val pfp: Bitmap?
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

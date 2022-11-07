@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+
 class ShopRepository @Inject constructor(
     private val productDao: ProductDao,
     private val categoryDao: CategoryDao,
@@ -14,18 +15,22 @@ class ShopRepository @Inject constructor(
     private val cartDao: CartDao,
     private val cartItemDao: CartItemDao,
 ) {
-    private var activeUserId: Int? = null
+    companion object {
+        const val ANONYMOUS_USER_ID = 1
+    }
+
+    private var activeUserId: Int = ANONYMOUS_USER_ID
     fun getCategories() = categoryDao.getCategories()
 
     suspend fun getCartItems(): Flow<List<CartItem>> {
         return withContext(Dispatchers.IO) {
-            val cartId = cartDao.getPendingCart(activeUserId!!)!!
+            val cartId = cartDao.getPendingCart(activeUserId)!!
             return@withContext cartItemDao.getCartItems(cartId)
         }
     }
 
     suspend fun addToCart(id: Int) {
-        val cartId = cartDao.getPendingCart(activeUserId!!)!!
+        val cartId = cartDao.getPendingCart(activeUserId)!!
         val cartItem = cartItemDao.getCartItem(cartId, id)
         cartItem?.let {
             it.quantity++
@@ -36,7 +41,7 @@ class ShopRepository @Inject constructor(
     }
 
     suspend fun removeFromCart(id: Int) {
-        val cartId = cartDao.getPendingCart(activeUserId!!)!!
+        val cartId = cartDao.getPendingCart(activeUserId)!!
         val cartItem = cartItemDao.getCartItem(cartId, id)
         cartItem?.let {
             if (it.quantity > 1) {
@@ -82,12 +87,8 @@ class ShopRepository @Inject constructor(
 
     suspend fun setCart() {
         withContext(Dispatchers.IO) {
-            activeUserId?.let { userId ->
-                if (cartDao.getPendingCart(userId) == null)
-                    cartDao.addCart(Cart(userId, CartStatus.PENDING))
-            } ?: run {
-                throw Exception("No user is logged in")
-            }
+            if (cartDao.getPendingCart(activeUserId) == null)
+                cartDao.addCart(Cart(activeUserId, CartStatus.PENDING))
         }
     }
 
