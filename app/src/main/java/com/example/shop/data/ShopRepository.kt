@@ -14,6 +14,7 @@ class ShopRepository @Inject constructor(
     private val userDao: UserDao,
     private val cartDao: CartDao,
     private val cartItemDao: CartItemDao,
+    private val wishlistDao: WishlistDao
 ) {
     companion object {
         const val ANONYMOUS_USER_ID = 1

@@ -24,7 +24,6 @@ object AppModule {
         @ApplicationContext context: Context,
         categoryProvider: Provider<CategoryDao>,
         productProvider: Provider<ProductDao>,
-        cartItemProvider: Provider<CartItemDao>,
         userProvider: Provider<UserDao>,
         cartProvider: Provider<CartDao>
     ): ShopDatabase {
@@ -60,6 +59,11 @@ object AppModule {
     @Provides
     fun provideCartItemDao(db: ShopDatabase) = db.cartItemDao()
 
+    @Singleton
+    @Provides
+    fun provideWishlistDao(db: ShopDatabase) = db.wishlistDao()
+
+
     @Provides
     @Singleton
     fun provideRepository(
@@ -68,7 +72,8 @@ object AppModule {
         userDao: UserDao,
         cartDao: CartDao,
         cartItemDao: CartItemDao,
+        wishlistDao: WishlistDao
     ): ShopRepository {
-        return ShopRepository(productDao, categoryDao, userDao, cartDao, cartItemDao)
+        return ShopRepository(productDao, categoryDao, userDao, cartDao, cartItemDao, wishlistDao)
     }
 }
