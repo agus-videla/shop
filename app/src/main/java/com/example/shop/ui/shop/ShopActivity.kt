@@ -31,14 +31,14 @@ class ShopActivity : AppCompatActivity() {
         initProductRecyclerView()
         initSortBySpinner()
         initSortOrderButton()
-
     }
 
     private fun initSortOrderButton() {
         viewModel.sortOrder.observe(this, Observer { sortOrder ->
-            when(sortOrder) {
-                false -> binding.btnSortOrder.setImageResource(R.drawable.ic_asc)
-                true -> binding.btnSortOrder.setImageResource(R.drawable.ic_desc)
+            when (sortOrder!!) {
+                //It makes more sense this way
+                SortOrder.ASC -> binding.btnSortOrder.setImageResource(R.drawable.ic_asc)
+                SortOrder.DESC -> binding.btnSortOrder.setImageResource(R.drawable.ic_desc)
             }
         })
         binding.btnSortOrder.setOnClickListener {
@@ -57,7 +57,7 @@ class ShopActivity : AppCompatActivity() {
             ) {
                 val selection = adapterView?.getItemAtPosition(position).toString()
                 viewModel.sortBy(selection)
-                if(this@ShopActivity::adapter.isInitialized)
+                if (this@ShopActivity::adapter.isInitialized)
                     adapter.notifyDataSetChanged()
             }
 
@@ -68,8 +68,13 @@ class ShopActivity : AppCompatActivity() {
     }
 
     private fun initProductRecyclerView() {
-        viewModel.products.observe(this) {
-            adapter = ProductAdapter(it) { id -> onAddItem(id) }
+        viewModel.products.observe(this) { productList ->
+            adapter = ProductAdapter(
+                productList,
+                { id -> onAddItem(id) },
+                { id -> onWishlistItem(id) }
+            )
+
             binding.rvProducts.adapter = adapter
             binding.rvProducts.layoutManager = GridLayoutManager(this, 2)
         }
@@ -78,6 +83,10 @@ class ShopActivity : AppCompatActivity() {
     private fun onAddItem(id: Int) {
         viewModel.addToCart(id)
         Toast.makeText(this, "Added to Cart!", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onWishlistItem(id: Int) {
+        viewModel.wishlistItem(id)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

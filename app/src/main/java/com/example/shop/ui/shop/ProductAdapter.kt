@@ -10,6 +10,7 @@ import com.example.shop.databinding.ShopItemBinding
 class ProductAdapter(
     private val products: List<Product>,
     private val onAddItem: (Int) -> Unit,
+    private val onWishlistItem: (Int) -> Unit,
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
     inner class ProductViewHolder(val binding: ShopItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -26,6 +27,9 @@ class ProductAdapter(
             tvPrice.text = products[position].price.toString()
             btnBuy.setOnClickListener {
                 onAddItem(products[position].id)
+            }
+            btnFavourite.setOnClickListener {
+                onWishlistItem(products[position].id)
             }
         }
     }

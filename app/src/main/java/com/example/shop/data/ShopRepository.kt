@@ -2,6 +2,7 @@ package com.example.shop.data
 
 import com.example.shop.data.database.dao.*
 import com.example.shop.data.database.entities.*
+import com.example.shop.ui.shop.SortOrder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -14,7 +15,7 @@ class ShopRepository @Inject constructor(
     private val userDao: UserDao,
     private val cartDao: CartDao,
     private val cartItemDao: CartItemDao,
-    private val wishlistDao: WishlistDao
+    private val wishlistDao: WishlistDao,
 ) {
     companion object {
         const val ANONYMOUS_USER_ID = 1
@@ -30,13 +31,15 @@ class ShopRepository @Inject constructor(
     }
 
     suspend fun addToCart(id: Int) {
-        val cartId = cartDao.getPendingCart(activeUserId)!!
-        val cartItem = cartItemDao.getCartItem(cartId, id)
-        cartItem?.let {
-            it.quantity++
-            cartItemDao.updateCartItem(it)
-        } ?: run {
-            cartItemDao.addCartItem(CartItem(id, cartId, 1))
+        withContext(Dispatchers.IO) {
+            val cartId = cartDao.getPendingCart(activeUserId)!!
+            val cartItem = cartItemDao.getCartItem(cartId, id)
+            cartItem?.let {
+                it.quantity++
+                cartItemDao.updateCartItem(it)
+            } ?: run {
+                cartItemDao.addCartItem(CartItem(id, cartId, 1))
+            }
         }
     }
 
@@ -55,14 +58,14 @@ class ShopRepository @Inject constructor(
         cartItemDao.removeCartItem(id)
     }
 
-    fun getProductsSortedBy(selection: String, sortOrder: Boolean): Flow<List<Product>> {
+    fun getProductsSortedBy(selection: String, sortOrder: SortOrder): Flow<List<Product>> {
         var columnName = ""
         when (selection) {
             "Price" -> columnName = "price"
             "Name" -> columnName = "name"
             "Relevance" -> columnName = "random"
         }
-        return productDao.getProductsSortedBy(columnName, sortOrder)
+        return productDao.getProductsSortedBy(columnName, sortOrder.toString())
     }
 
     suspend fun usernameAvailable(username: String): Boolean {
@@ -94,5 +97,11 @@ class ShopRepository @Inject constructor(
 
     fun getProduct(idProduct: Int): Flow<Product> {
         return productDao.getProduct(idProduct)
+    }
+
+    suspend fun wishlistItem(productId: Int) {
+        withContext(Dispatchers.IO) {
+            wishlistDao.addWishlistItem(WishlistItem(productId, activeUserId))
+        }
     }
 }
