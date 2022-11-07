@@ -34,8 +34,6 @@ object AppModule {
             "shop_database"
         )
             .addCallback(UserCallback(userProvider))
-            .addCallback(CartItemCallback(cartItemProvider))
-            .addCallback(CartCallback(cartProvider))
             .addCallback(CategoryCallback(categoryProvider))
             .addCallback(ProductCallback(productProvider))
             .fallbackToDestructiveMigration()

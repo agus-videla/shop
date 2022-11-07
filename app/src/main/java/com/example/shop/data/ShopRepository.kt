@@ -20,7 +20,6 @@ class ShopRepository @Inject constructor(
     }
 
     private var activeUserId: Int = ANONYMOUS_USER_ID
-    fun getCategories() = categoryDao.getCategories()
 
     suspend fun getCartItems(): Flow<List<CartItem>> {
         return withContext(Dispatchers.IO) {

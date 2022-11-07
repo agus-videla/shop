@@ -25,7 +25,6 @@ class ProductCallback(
     }
 
     private suspend fun populateDatabase() {
-        provider.get().deleteAll()
         var product = Product(
             1,
             "Mountain Jacket",
