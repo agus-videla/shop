@@ -1,32 +1,44 @@
-package com.example.shop.ui.cart
+package com.example.shop.ui.main.cart
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.shop.databinding.ActivityCartBinding
+import com.example.shop.databinding.FragmentCartBinding
 import com.example.shop.ui.ShippingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+
 @AndroidEntryPoint
-class CartActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCartBinding
+class CartFragment : Fragment() {
+    private var _binding: FragmentCartBinding? = null
+    private val binding get() = _binding!!
     private lateinit var adapter: CartItemAdapter
     private val viewModel: CartViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityCartBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentCartBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launch {
             initRecyclerView()
         }
 
-        viewModel.items.observe(this) { cartItems ->
+        viewModel.items.observe(viewLifecycleOwner) { cartItems ->
             binding.tvFinalPrice.text = cartItems.sumOf { it.subTotal() }.toString()
         }
 
@@ -36,7 +48,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView() {
-        viewModel.items.observe(this) { cartItems ->
+        viewModel.items.observe(viewLifecycleOwner) { cartItems ->
             adapter = CartItemAdapter(
                 cartItems,
                 { id, position -> onAddItem(id, position) },
@@ -44,7 +56,7 @@ class CartActivity : AppCompatActivity() {
                 { id, position -> onDeleteItem(id, position) }
             )
             binding.rvProducts.adapter = adapter
-            binding.rvProducts.layoutManager = LinearLayoutManager(this)
+            binding.rvProducts.layoutManager = LinearLayoutManager(this.context)
         }
     }
 
@@ -64,7 +76,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun openShippingActivity() {
-        val intent = Intent(this, ShippingActivity::class.java)
+        val intent = Intent(this.context, ShippingActivity::class.java)
         startActivity(intent)
     }
 

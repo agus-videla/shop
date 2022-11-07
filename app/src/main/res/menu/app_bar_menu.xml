@@ -8,4 +8,10 @@
         android:icon="@drawable/ic_baseline_shopping_cart_24"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/miWishlist"
+        android:title="@string/wishlist"
+        android:icon="@drawable/favourite"
+        app:showAsAction="ifRoom" />
+
 </menu>

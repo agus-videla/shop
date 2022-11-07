@@ -1,32 +1,36 @@
-package com.example.shop.ui.shop
+package com.example.shop.ui.main.shop
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.AdapterView
 import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.shop.R
-import com.example.shop.databinding.ActivityShopBinding
-import com.example.shop.ui.cart.CartActivity
+import com.example.shop.databinding.FragmentShopBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class ShopActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityShopBinding
-    private lateinit var adapter: ProductAdapter
-    private val viewModel: ShopViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityShopBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+@AndroidEntryPoint
+class ShopFragment : Fragment() {
+    private var _binding: FragmentShopBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: ShopViewModel by viewModels()
+    private lateinit var adapter: ProductAdapter
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentShopBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initProductRecyclerView()
         initSortBySpinner()
@@ -34,13 +38,12 @@ class ShopActivity : AppCompatActivity() {
     }
 
     private fun initSortOrderButton() {
-        viewModel.sortOrder.observe(this, Observer { sortOrder ->
+        viewModel.sortOrder.observe(viewLifecycleOwner) { sortOrder ->
             when (sortOrder!!) {
-                //It makes more sense this way
                 SortOrder.ASC -> binding.btnSortOrder.setImageResource(R.drawable.ic_asc)
                 SortOrder.DESC -> binding.btnSortOrder.setImageResource(R.drawable.ic_desc)
             }
-        })
+        }
         binding.btnSortOrder.setOnClickListener {
             viewModel.changeSortOrder()
         }
@@ -57,7 +60,7 @@ class ShopActivity : AppCompatActivity() {
             ) {
                 val selection = adapterView?.getItemAtPosition(position).toString()
                 viewModel.sortBy(selection)
-                if (this@ShopActivity::adapter.isInitialized)
+                if (this@ShopFragment::adapter.isInitialized)
                     adapter.notifyDataSetChanged()
             }
 
@@ -68,7 +71,7 @@ class ShopActivity : AppCompatActivity() {
     }
 
     private fun initProductRecyclerView() {
-        viewModel.products.observe(this) { productList ->
+        viewModel.products.observe(viewLifecycleOwner) { productList ->
             adapter = ProductAdapter(
                 productList,
                 { id -> onAddItem(id) },
@@ -76,36 +79,21 @@ class ShopActivity : AppCompatActivity() {
             )
 
             binding.rvProducts.adapter = adapter
-            binding.rvProducts.layoutManager = GridLayoutManager(this, 2)
+            binding.rvProducts.layoutManager = GridLayoutManager(this.context, 2)
         }
     }
 
     private fun onAddItem(id: Int) {
         viewModel.addToCart(id)
-        Toast.makeText(this, "Added to Cart!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this.context, "Added to Cart!", Toast.LENGTH_SHORT).show()
     }
 
     private fun onWishlistItem(id: Int) {
         viewModel.wishlistItem(id)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.app_bar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.miCart -> {
-                openCartActivity()
-                Toast.makeText(this, "clicked on cart!", Toast.LENGTH_SHORT).show()
-            }
-        }
-        return true
-    }
-
-    private fun openCartActivity() {
-        val intent = Intent(this, CartActivity::class.java)
-        startActivity(intent)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -1,4 +1,4 @@
-package com.example.shop.ui.signup
+package com.example.shop.ui.authentication.signup
 
 import android.os.Bundle
 import android.text.Editable

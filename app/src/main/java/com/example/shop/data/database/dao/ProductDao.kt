@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.shop.data.database.entities.Product
-import com.example.shop.ui.shop.SortOrder
+import com.example.shop.ui.main.shop.SortOrder
 import kotlinx.coroutines.flow.Flow
 
 @Dao

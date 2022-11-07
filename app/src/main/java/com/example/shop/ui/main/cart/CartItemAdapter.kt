@@ -1,4 +1,4 @@
-package com.example.shop.ui.cart
+package com.example.shop.ui.main.cart
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

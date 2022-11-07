@@ -1,4 +1,4 @@
-package com.example.shop.ui.login
+package com.example.shop.ui.authentication.login
 
 import androidx.lifecycle.ViewModel
 import com.example.shop.data.ShopRepository

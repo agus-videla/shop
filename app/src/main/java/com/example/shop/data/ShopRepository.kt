@@ -2,7 +2,7 @@ package com.example.shop.data
 
 import com.example.shop.data.database.dao.*
 import com.example.shop.data.database.entities.*
-import com.example.shop.ui.shop.SortOrder
+import com.example.shop.ui.main.shop.SortOrder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
