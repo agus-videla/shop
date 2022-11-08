@@ -115,4 +115,10 @@ class ShopRepository @Inject constructor(
             cartDao.transferCart(activeUserId)
         }
     }
+
+    suspend fun getWishlist(): Flow<List<Product>> {
+        return withContext(Dispatchers.IO) {
+            return@withContext wishlistDao.getWishlist(activeUserId)
+        }
+    }
 }

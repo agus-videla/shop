@@ -6,6 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
+    primaryKeys = ["product_id","user_id"],
     tableName = "WishlistItem",
     foreignKeys =
     [ForeignKey(entity = Product::class,
@@ -20,7 +21,5 @@ import androidx.room.PrimaryKey
 class WishlistItem(
     @ColumnInfo(name = "product_id") val idProduct: Int,
     @ColumnInfo(name = "user_id") val idUser: Int,
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-}
+)
+

@@ -7,7 +7,7 @@ import com.example.shop.data.database.dao.*
 import com.example.shop.data.database.entities.*
 
 @Database(entities = [Product::class, Category::class, User::class, Cart::class, CartItem::class, WishlistItem::class],
-    version = 13,
+    version = 14,
     exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class ShopDatabase : RoomDatabase() {

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.R
 import com.example.shop.databinding.FragmentShopBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +24,7 @@ class ShopFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentShopBinding.inflate(inflater, container, false)
         return binding.root
@@ -33,6 +34,7 @@ class ShopFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initProductRecyclerView()
+        initWishlistRecyclerView()
         initSortBySpinner()
         initSortOrderButton()
     }
@@ -80,6 +82,18 @@ class ShopFragment : Fragment() {
 
             binding.rvProducts.adapter = adapter
             binding.rvProducts.layoutManager = GridLayoutManager(this.context, 2)
+        }
+    }
+
+    private fun initWishlistRecyclerView() {
+        viewModel.wishlist.observe(viewLifecycleOwner) {
+            adapter = ProductAdapter(
+                it,
+                { id -> onAddItem(id) },
+                { id -> onWishlistItem(id) })
+
+            binding.rvWishlist.adapter = adapter
+            binding.rvWishlist.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         }
     }
 

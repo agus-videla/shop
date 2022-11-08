@@ -19,12 +19,15 @@ class ShopViewModel @Inject constructor(
     val sortOrder get() = _sortOrder
     private val _productList = MutableLiveData<List<Product>>()
     val products get() = _productList
+    private val _wishlist = MutableLiveData<List<Product>>()
+    val wishlist get() = _wishlist
 
     init {
         viewModelScope.launch {
             repository.setCart()
         }
         getProductsSorted()
+        getWishlist()
     }
 
     fun addToCart(id: Int) {
@@ -41,7 +44,7 @@ class ShopViewModel @Inject constructor(
 
 
     fun changeSortOrder() {
-        if(_sortOrder.value == SortOrder.ASC)
+        if (_sortOrder.value == SortOrder.ASC)
             _sortOrder.value = SortOrder.DESC
         else
             _sortOrder.value = SortOrder.ASC
@@ -55,15 +58,23 @@ class ShopViewModel @Inject constructor(
 
     private fun getProductsSorted() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getProductsSortedBy(sortBy.value ?: "Price", sortOrder.value ?: SortOrder.ASC)
+            repository.getProductsSortedBy(sortBy.value ?: "Price",
+                sortOrder.value ?: SortOrder.ASC)
                 .collect {
                     _productList.postValue(it)
                 }
         }
     }
 
+    private fun getWishlist() {
+        viewModelScope.launch {
+            repository.getWishlist().collect {
+                _wishlist.postValue(it)
+            }
+        }
+    }
 }
 
 enum class SortOrder {
-    ASC , DESC
+    ASC, DESC
 }
