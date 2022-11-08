@@ -9,8 +9,8 @@ import javax.inject.Inject
 class LogInViewModel @Inject constructor(
     val repository: ShopRepository,
 ) : ViewModel() {
-    suspend fun isValid(username: String, password: String): Int? {
-        return repository.isValid(username, password)
+    suspend fun getUserIdIfExists(username: String, password: String): Int? {
+        return repository.getUserIdIfExists(username, password)
     }
 
     fun setActiveUser(id: Int) {

@@ -1,5 +1,6 @@
 package com.example.shop.ui.authentication.login
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ShareCompat.getCallingActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -43,13 +45,18 @@ class LogInFragment : Fragment() {
 
         binding.btnLogIn.setOnClickListener {
             lifecycleScope.launch {
-                val userId = viewModel.isValid(
+                val userId = viewModel.getUserIdIfExists(
                     binding.etUsername.text.toString(),
                     digest(binding.etPassword.text.toString())
                 )
                 userId?.let {
                     viewModel.setActiveUser(it)
-                    openMainActivity()
+                    if (getCallingActivity(requireActivity()) == null) {
+                        openMainActivity()
+                    } else {
+                        requireActivity().setResult(RESULT_OK)
+                        requireActivity().finish()
+                    }
                 } ?: run {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@LogInFragment.context,

@@ -5,12 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.databinding.FragmentCartBinding
 import com.example.shop.ui.ShippingActivity
+import com.example.shop.ui.authentication.AuthenticationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -19,8 +23,17 @@ import kotlinx.coroutines.launch
 class CartFragment : Fragment() {
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: CartItemAdapter
     private val viewModel: CartViewModel by viewModels()
+    private lateinit var adapter: CartItemAdapter
+    private val authenticationLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            lifecycleScope.launch {
+                viewModel.transferCart()
+            }
+        } else {
+            Toast.makeText(this.context, "user didn't log in :(", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +56,12 @@ class CartFragment : Fragment() {
         }
 
         binding.btnCheckout.setOnClickListener {
-            openShippingActivity()
+            if(viewModel.userIsLoggedIn()) {
+                openShippingActivity()
+            } else {
+                val intent = Intent(this.context, AuthenticationActivity::class.java)
+                authenticationLauncher.launch(intent)
+            }
         }
     }
 

@@ -78,7 +78,7 @@ class ShopRepository @Inject constructor(
         }
     }
 
-    suspend fun isValid(username: String, password: String): Int? {
+    suspend fun getUserIdIfExists(username: String, password: String): Int? {
         return withContext(Dispatchers.IO) {
             return@withContext userDao.getUser(username, password)
         }
@@ -102,6 +102,17 @@ class ShopRepository @Inject constructor(
     suspend fun wishlistItem(productId: Int) {
         withContext(Dispatchers.IO) {
             wishlistDao.addWishlistItem(WishlistItem(productId, activeUserId))
+        }
+    }
+
+    fun userIsLoggedIn(): Boolean {
+        return activeUserId != ANONYMOUS_USER_ID
+    }
+
+    suspend fun transferAnonymousCartToActiveUser() {
+        withContext(Dispatchers.IO) {
+            cartDao.cancelCart(activeUserId)
+            cartDao.transferCart(activeUserId)
         }
     }
 }

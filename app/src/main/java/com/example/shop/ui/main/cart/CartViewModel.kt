@@ -56,6 +56,10 @@ class CartViewModel @Inject constructor(
             repository.deleteFromCart(id)
         }
     }
+
+    fun userIsLoggedIn(): Boolean = repository.userIsLoggedIn()
+
+    suspend fun transferCart() = repository.transferAnonymousCartToActiveUser()
 }
 
 data class CartItemWithProduct(
