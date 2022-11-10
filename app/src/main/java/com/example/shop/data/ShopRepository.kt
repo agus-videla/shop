@@ -4,7 +4,7 @@ import com.example.shop.data.database.dao.*
 import com.example.shop.data.database.entities.*
 import com.example.shop.ui.main.shop.SortOrder
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -21,18 +21,18 @@ class ShopRepository @Inject constructor(
         const val ANONYMOUS_USER_ID = 1
     }
 
-    private var activeUserId: Int = ANONYMOUS_USER_ID
+    private var activeUserId: MutableStateFlow<Int> = MutableStateFlow(ANONYMOUS_USER_ID)
 
     suspend fun getCartItems(): Flow<List<CartItem>> {
         return withContext(Dispatchers.IO) {
-            val cartId = cartDao.getPendingCart(activeUserId)!!
+            val cartId = ensureCart()
             return@withContext cartItemDao.getCartItems(cartId)
         }
     }
 
     suspend fun addToCart(id: Int) {
         withContext(Dispatchers.IO) {
-            val cartId = cartDao.getPendingCart(activeUserId)!!
+            val cartId: Int = ensureCart()
             val cartItem = cartItemDao.getCartItem(cartId, id)
             cartItem?.let {
                 it.quantity++
@@ -44,7 +44,7 @@ class ShopRepository @Inject constructor(
     }
 
     suspend fun removeFromCart(id: Int) {
-        val cartId = cartDao.getPendingCart(activeUserId)!!
+        val cartId = ensureCart()
         val cartItem = cartItemDao.getCartItem(cartId, id)
         cartItem?.let {
             if (it.quantity > 1) {
@@ -85,13 +85,20 @@ class ShopRepository @Inject constructor(
     }
 
     fun setActiveUser(id: Int) {
-        activeUserId = id
+        activeUserId.value = id
     }
 
-    suspend fun setCart() {
-        withContext(Dispatchers.IO) {
-            if (cartDao.getPendingCart(activeUserId) == null)
-                cartDao.addCart(Cart(activeUserId, CartStatus.PENDING))
+    private suspend fun setCart(): Int {
+        return withContext(Dispatchers.IO) {
+            cartDao.addCart(Cart(activeUserId.value, CartStatus.PENDING)).toInt()
+        }
+    }
+
+    private suspend fun ensureCart(): Int {
+        cartDao.getPendingCart(activeUserId.value)?.let {
+            return it
+        } ?: run {
+            return setCart()
         }
     }
 
@@ -99,26 +106,33 @@ class ShopRepository @Inject constructor(
         return productDao.getProduct(idProduct)
     }
 
-    suspend fun wishlistItem(productId: Int) {
+    suspend fun addToWishlist(productId: Int) {
         withContext(Dispatchers.IO) {
-            wishlistDao.addWishlistItem(WishlistItem(productId, activeUserId))
+            wishlistDao.addToWishlist(WishlistItem(productId, activeUserId.value))
+        }
+    }
+
+    suspend fun removeFromWishlist(productId: Int) {
+        withContext(Dispatchers.IO) {
+            wishlistDao.removeFromWishlist(activeUserId.value, productId)
         }
     }
 
     fun userIsLoggedIn(): Boolean {
-        return activeUserId != ANONYMOUS_USER_ID
+        return activeUserId.value != ANONYMOUS_USER_ID
     }
 
     suspend fun transferAnonymousCartToActiveUser() {
         withContext(Dispatchers.IO) {
-            cartDao.cancelCart(activeUserId)
-            cartDao.transferCart(activeUserId)
+            cartDao.cancelCart(activeUserId.value)
+            cartDao.transferCart(activeUserId.value)
         }
     }
 
     suspend fun getWishlist(): Flow<List<Product>> {
         return withContext(Dispatchers.IO) {
-            return@withContext wishlistDao.getWishlist(activeUserId)
+                wishlistDao.getWishlist(activeUserId.value)
         }
     }
+
 }

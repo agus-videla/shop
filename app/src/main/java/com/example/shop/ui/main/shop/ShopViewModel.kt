@@ -24,10 +24,14 @@ class ShopViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repository.setCart()
+            getWishlist()
         }
-        getProductsSorted()
-        getWishlist()
+    }
+
+    suspend fun getWishlist() {
+        repository.getWishlist().collect {
+            _wishlist.postValue(it)
+        }
     }
 
     fun addToCart(id: Int) {
@@ -36,12 +40,17 @@ class ShopViewModel @Inject constructor(
         }
     }
 
-    fun wishlistItem(productId: Int) {
+    fun addToWishlist(productId: Int) {
         viewModelScope.launch {
-            repository.wishlistItem(productId)
+            repository.addToWishlist(productId)
         }
     }
 
+    fun removeFromWishlist(productId: Int) {
+        viewModelScope.launch {
+            repository.removeFromWishlist(productId)
+        }
+    }
 
     fun changeSortOrder() {
         if (_sortOrder.value == SortOrder.ASC)
@@ -66,13 +75,14 @@ class ShopViewModel @Inject constructor(
         }
     }
 
-    private fun getWishlist() {
-        viewModelScope.launch {
-            repository.getWishlist().collect {
-                _wishlist.postValue(it)
-            }
-        }
+    fun userIsLoggedIn(): Boolean = repository.userIsLoggedIn()
+
+    fun isWished(id: Int) : Boolean {
+        return wishlist.value?.any {
+            it.id == id
+        } ?: false
     }
+
 }
 
 enum class SortOrder {

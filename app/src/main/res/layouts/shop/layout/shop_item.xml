@@ -84,7 +84,7 @@
         android:layout_margin="15dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
-        android:src="@drawable/favourite"
+        android:src="@drawable/ic_wished"
         app:layout_constraintBottom_toTopOf="@id/horizontalTop"
         app:layout_constraintLeft_toRightOf="@id/vertical"
         app:layout_constraintRight_toRightOf="@id/ivProduct"

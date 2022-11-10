@@ -16,8 +16,8 @@ interface WishlistDao {
     fun getWishlist(userId: Int): Flow<List<Product>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addWishlistItem(wishlistItem: WishlistItem): Long
+    suspend fun addToWishlist(wishlistItem: WishlistItem): Long
 
     @Query("DELETE FROM WishlistItem WHERE user_id = :userId AND product_id = :productId")
-    suspend fun removeItem(userId: Int, productId: Int)
+    suspend fun removeFromWishlist(userId: Int, productId: Int)
 }

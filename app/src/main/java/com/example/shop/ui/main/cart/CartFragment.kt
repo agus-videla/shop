@@ -30,8 +30,9 @@ class CartFragment : Fragment() {
             lifecycleScope.launch {
                 viewModel.transferCart()
             }
+            openShippingActivity()
         } else {
-            Toast.makeText(this.context, "user didn't log in :(", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "You must be logged to start the checkout process", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -102,4 +103,5 @@ class CartFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

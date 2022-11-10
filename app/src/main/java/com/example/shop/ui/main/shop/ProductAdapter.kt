@@ -10,7 +10,8 @@ import com.example.shop.databinding.ShopItemBinding
 class ProductAdapter(
     private val products: List<Product>,
     private val onAddItem: (Int) -> Unit,
-    private val onWishlistItem: (Int) -> Unit,
+    private val onWishlistItem: (Int, Int) -> Unit,
+    private val isWished: (Int) -> Boolean
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
     inner class ProductViewHolder(val binding: ShopItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -29,8 +30,12 @@ class ProductAdapter(
                 onAddItem(products[position].id)
             }
             btnFavourite.setOnClickListener {
-                onWishlistItem(products[position].id)
+                onWishlistItem(products[position].id, position)
             }
+            if (isWished(products[position].id))
+                btnFavourite.setImageResource(R.drawable.ic_wished)
+            else
+                btnFavourite.setImageResource(R.drawable.ic_unwished)
         }
     }
 

@@ -11,7 +11,7 @@
     <item
         android:id="@+id/miWishlist"
         android:title="@string/wishlist"
-        android:icon="@drawable/favourite"
+        android:icon="@drawable/ic_wished"
         app:showAsAction="ifRoom" />
 
 </menu>
