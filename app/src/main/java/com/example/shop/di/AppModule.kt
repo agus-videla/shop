@@ -6,6 +6,7 @@ import com.example.shop.data.ShopRepository
 import com.example.shop.data.database.ShopDatabase
 import com.example.shop.data.database.callbacks.*
 import com.example.shop.data.database.dao.*
+import com.example.shop.data.datastore.DataStoreManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +26,7 @@ object AppModule {
         categoryProvider: Provider<CategoryDao>,
         productProvider: Provider<ProductDao>,
         userProvider: Provider<UserDao>,
-        cartProvider: Provider<CartDao>
+        cartProvider: Provider<CartDao>,
     ): ShopDatabase {
         return Room.databaseBuilder(
             context,
@@ -63,6 +64,11 @@ object AppModule {
     @Provides
     fun provideWishlistDao(db: ShopDatabase) = db.wishlistDao()
 
+    @Singleton
+    @Provides
+    fun provideDataStoreManager(@ApplicationContext appContext: Context): DataStoreManager {
+        return DataStoreManager(appContext)
+    }
 
     @Provides
     @Singleton
@@ -72,8 +78,15 @@ object AppModule {
         userDao: UserDao,
         cartDao: CartDao,
         cartItemDao: CartItemDao,
-        wishlistDao: WishlistDao
+        wishlistDao: WishlistDao,
+        dataStoreManager: DataStoreManager,
     ): ShopRepository {
-        return ShopRepository(productDao, categoryDao, userDao, cartDao, cartItemDao, wishlistDao)
+        return ShopRepository(productDao,
+            categoryDao,
+            userDao,
+            cartDao,
+            cartItemDao,
+            wishlistDao,
+            dataStoreManager)
     }
 }

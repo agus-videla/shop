@@ -1,9 +1,13 @@
 package com.example.shop.data
 
+import android.util.Log
+import androidx.datastore.dataStore
 import com.example.shop.data.database.dao.*
 import com.example.shop.data.database.entities.*
+import com.example.shop.data.datastore.DataStoreManager
 import com.example.shop.ui.main.shop.SortOrder
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -16,6 +20,7 @@ class ShopRepository @Inject constructor(
     private val cartDao: CartDao,
     private val cartItemDao: CartItemDao,
     private val wishlistDao: WishlistDao,
+    private val dataStoreManager: DataStoreManager,
 ) {
     companion object {
         const val ANONYMOUS_USER_ID = 1
@@ -131,7 +136,18 @@ class ShopRepository @Inject constructor(
 
     suspend fun getWishlist(): Flow<List<Product>> {
         return withContext(Dispatchers.IO) {
-                wishlistDao.getWishlist(activeUserId.value)
+            wishlistDao.getWishlist(activeUserId.value)
+        }
+    }
+
+    suspend fun testDatastore() {
+        dataStoreManager.setActiveUser(2)
+        Log.d("DATASOTRE", "smt is happening")
+        val it = dataStoreManager.getActiveUser()
+        if (it == null) {
+            Log.d("DATASOTRE", "FUCK")
+        } else {
+            Log.d("DATASOTRE", "is it $it?")
         }
     }
 

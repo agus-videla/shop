@@ -83,6 +83,10 @@ class ShopViewModel @Inject constructor(
         } ?: false
     }
 
+    suspend fun testDatastore() {
+        repository.testDatastore()
+    }
+
 }
 
 enum class SortOrder {

@@ -18,6 +18,7 @@ import com.example.shop.data.database.entities.Product
 import com.example.shop.databinding.FragmentShopBinding
 import com.example.shop.ui.authentication.AuthenticationActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 
@@ -80,7 +81,9 @@ class ShopFragment : Fragment() {
             SortOrder.DESC -> binding.btnSortOrder.setImageResource(R.drawable.ic_desc)
         }
         binding.btnSortOrder.setOnClickListener {
-            viewModel.changeSortOrder()
+            lifecycleScope.launch {
+                viewModel.testDatastore()
+            }
         }
     }
 
