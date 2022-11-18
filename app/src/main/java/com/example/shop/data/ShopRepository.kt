@@ -131,4 +131,8 @@ class ShopRepository @Inject constructor(
             wishlistDao.getWishlist(dataStoreManager.getActiveUser())
         }
     }
+
+    suspend fun logOut() {
+        dataStoreManager.clearActiveUser()
+    }
 }

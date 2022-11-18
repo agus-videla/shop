@@ -30,4 +30,5 @@
     <string name="start_shopping">Start Shopping</string>
     <string name="wishlist">Wishlist</string>
     <string name="on_your_wishlist">On Your Wishlist</string>
+    <string name="log_out">Log Out</string>
 </resources>

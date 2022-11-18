@@ -6,12 +6,11 @@
         android:id="@+id/miCart"
         android:title="@string/shopping_cart"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/miWishlist"
-        android:title="@string/wishlist"
-        android:icon="@drawable/ic_wished"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/miLogOut"
+        android:title="@string/log_out"
+        app:showAsAction="never" />
 
 </menu>

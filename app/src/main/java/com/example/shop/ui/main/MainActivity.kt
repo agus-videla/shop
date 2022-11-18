@@ -2,31 +2,27 @@ package com.example.shop.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.shop.R
 import com.example.shop.databinding.ActivityMainBinding
+import com.example.shop.ui.StartActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onPostCreate(savedInstanceState, persistentState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -38,17 +34,22 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.miCart -> {
                 openCartActivity()
-                Toast.makeText(this, "clicked on cart!", Toast.LENGTH_SHORT).show()
             }
-            R.id.miWishlist -> {
-                openWishlistFragment()
-                Toast.makeText(this, "clicked on wishlist!", Toast.LENGTH_SHORT).show()
+            R.id.miLogOut -> {
+                logOut()
+                Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show()
             }
         }
         return true
     }
 
-    private fun openWishlistFragment() {
+    private fun logOut() {
+        runBlocking {
+            viewModel.logOut()
+        }
+        val intent = Intent(applicationContext, StartActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
     private fun openCartActivity() {
