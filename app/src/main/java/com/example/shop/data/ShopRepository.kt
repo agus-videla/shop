@@ -1,13 +1,11 @@
 package com.example.shop.data
 
-import android.util.Log
-import androidx.datastore.dataStore
 import com.example.shop.data.database.dao.*
 import com.example.shop.data.database.entities.*
 import com.example.shop.data.datastore.DataStoreManager
+import com.example.shop.data.datastore.DataStoreManager.Companion.ANONYMOUS_USER_ID
 import com.example.shop.ui.main.shop.SortOrder
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -22,12 +20,6 @@ class ShopRepository @Inject constructor(
     private val wishlistDao: WishlistDao,
     private val dataStoreManager: DataStoreManager,
 ) {
-    companion object {
-        const val ANONYMOUS_USER_ID = 1
-    }
-
-    private var activeUserId: MutableStateFlow<Int> = MutableStateFlow(ANONYMOUS_USER_ID)
-
     suspend fun getCartItems(): Flow<List<CartItem>> {
         return withContext(Dispatchers.IO) {
             val cartId = ensureCart()
@@ -89,18 +81,18 @@ class ShopRepository @Inject constructor(
         }
     }
 
-    fun setActiveUser(id: Int) {
-        activeUserId.value = id
+    suspend fun setActiveUser(id: Int) {
+        dataStoreManager.setActiveUser(id)
     }
 
     private suspend fun setCart(): Int {
         return withContext(Dispatchers.IO) {
-            cartDao.addCart(Cart(activeUserId.value, CartStatus.PENDING)).toInt()
+            cartDao.addCart(Cart(dataStoreManager.getActiveUser(), CartStatus.PENDING)).toInt()
         }
     }
 
     private suspend fun ensureCart(): Int {
-        cartDao.getPendingCart(activeUserId.value)?.let {
+        cartDao.getPendingCart(dataStoreManager.getActiveUser())?.let {
             return it
         } ?: run {
             return setCart()
@@ -113,42 +105,30 @@ class ShopRepository @Inject constructor(
 
     suspend fun addToWishlist(productId: Int) {
         withContext(Dispatchers.IO) {
-            wishlistDao.addToWishlist(WishlistItem(productId, activeUserId.value))
+            wishlistDao.addToWishlist(WishlistItem(productId, dataStoreManager.getActiveUser()))
         }
     }
 
     suspend fun removeFromWishlist(productId: Int) {
         withContext(Dispatchers.IO) {
-            wishlistDao.removeFromWishlist(activeUserId.value, productId)
+            wishlistDao.removeFromWishlist(dataStoreManager.getActiveUser(), productId)
         }
     }
 
-    fun userIsLoggedIn(): Boolean {
-        return activeUserId.value != ANONYMOUS_USER_ID
+    suspend fun userIsLoggedIn(): Boolean {
+        return dataStoreManager.getActiveUser() != ANONYMOUS_USER_ID
     }
 
     suspend fun transferAnonymousCartToActiveUser() {
         withContext(Dispatchers.IO) {
-            cartDao.cancelCart(activeUserId.value)
-            cartDao.transferCart(activeUserId.value)
+            cartDao.cancelCart(dataStoreManager.getActiveUser())
+            cartDao.transferCart(dataStoreManager.getActiveUser())
         }
     }
 
     suspend fun getWishlist(): Flow<List<Product>> {
         return withContext(Dispatchers.IO) {
-            wishlistDao.getWishlist(activeUserId.value)
+            wishlistDao.getWishlist(dataStoreManager.getActiveUser())
         }
     }
-
-    suspend fun testDatastore() {
-        dataStoreManager.setActiveUser(2)
-        Log.d("DATASOTRE", "smt is happening")
-        val it = dataStoreManager.getActiveUser()
-        if (it == null) {
-            Log.d("DATASOTRE", "FUCK")
-        } else {
-            Log.d("DATASOTRE", "is it $it?")
-        }
-    }
-
 }

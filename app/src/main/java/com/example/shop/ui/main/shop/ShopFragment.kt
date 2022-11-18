@@ -18,7 +18,6 @@ import com.example.shop.data.database.entities.Product
 import com.example.shop.databinding.FragmentShopBinding
 import com.example.shop.ui.authentication.AuthenticationActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 
@@ -81,9 +80,7 @@ class ShopFragment : Fragment() {
             SortOrder.DESC -> binding.btnSortOrder.setImageResource(R.drawable.ic_desc)
         }
         binding.btnSortOrder.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.testDatastore()
-            }
+            viewModel.changeSortOrder()
         }
     }
 
@@ -137,13 +134,15 @@ class ShopFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun onWishlistItem(id: Int, position: Int) {
-        if (viewModel.userIsLoggedIn()) {
-            toggleWish(id)
-            prodAdapter.notifyItemChanged(position) // fixme icon does not update
-        } else {
-            pendingWishId = id
-            val intent = Intent(this.context, AuthenticationActivity::class.java)
-            authenticationLauncher.launch(intent)
+        lifecycleScope.launch {
+            if (viewModel.userIsLoggedIn()) {
+                toggleWish(id)
+                prodAdapter.notifyItemChanged(position) // fixme icon does not update
+            } else {
+                pendingWishId = id
+                val intent = Intent(this@ShopFragment.context, AuthenticationActivity::class.java)
+                authenticationLauncher.launch(intent)
+            }
         }
     }
 

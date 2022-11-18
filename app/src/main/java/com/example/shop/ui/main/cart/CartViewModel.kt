@@ -57,7 +57,7 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun userIsLoggedIn(): Boolean = repository.userIsLoggedIn()
+    suspend fun userIsLoggedIn(): Boolean = repository.userIsLoggedIn()
 
     suspend fun transferCart() = repository.transferAnonymousCartToActiveUser()
 }

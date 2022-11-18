@@ -57,11 +57,13 @@ class CartFragment : Fragment() {
         }
 
         binding.btnCheckout.setOnClickListener {
-            if(viewModel.userIsLoggedIn()) {
-                openShippingActivity()
-            } else {
-                val intent = Intent(this.context, AuthenticationActivity::class.java)
-                authenticationLauncher.launch(intent)
+            lifecycleScope.launch {
+                if(viewModel.userIsLoggedIn()) {
+                    openShippingActivity()
+                } else {
+                    val intent = Intent(this@CartFragment.context, AuthenticationActivity::class.java)
+                    authenticationLauncher.launch(intent)
+                }
             }
         }
     }

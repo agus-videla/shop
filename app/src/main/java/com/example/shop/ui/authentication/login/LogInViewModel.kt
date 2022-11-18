@@ -13,7 +13,7 @@ class LogInViewModel @Inject constructor(
         return repository.getUserIdIfExists(username, password)
     }
 
-    fun setActiveUser(id: Int) {
+    suspend fun setActiveUser(id: Int) {
         repository.setActiveUser(id)
     }
 

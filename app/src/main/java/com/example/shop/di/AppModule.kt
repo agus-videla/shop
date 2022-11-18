@@ -64,12 +64,6 @@ object AppModule {
     @Provides
     fun provideWishlistDao(db: ShopDatabase) = db.wishlistDao()
 
-    @Singleton
-    @Provides
-    fun provideDataStoreManager(@ApplicationContext appContext: Context): DataStoreManager {
-        return DataStoreManager(appContext)
-    }
-
     @Provides
     @Singleton
     fun provideRepository(

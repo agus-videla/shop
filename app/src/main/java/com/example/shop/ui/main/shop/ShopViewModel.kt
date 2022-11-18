@@ -75,18 +75,13 @@ class ShopViewModel @Inject constructor(
         }
     }
 
-    fun userIsLoggedIn(): Boolean = repository.userIsLoggedIn()
+    suspend fun userIsLoggedIn(): Boolean = repository.userIsLoggedIn()
 
     fun isWished(id: Int) : Boolean {
         return wishlist.value?.any {
             it.id == id
         } ?: false
     }
-
-    suspend fun testDatastore() {
-        repository.testDatastore()
-    }
-
 }
 
 enum class SortOrder {
