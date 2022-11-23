@@ -12,7 +12,11 @@ import androidx.core.app.ShareCompat.getCallingActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.shop.R
+import com.example.shop.data.LogOutWorker
 import com.example.shop.databinding.FragmentLogInBinding
 import com.example.shop.ui.digest
 import com.example.shop.ui.main.MainActivity
@@ -20,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.Duration
 
 @AndroidEntryPoint
 class LogInFragment : Fragment() {
@@ -51,6 +56,7 @@ class LogInFragment : Fragment() {
                 )
                 userId?.let {
                     viewModel.setActiveUser(it)
+                    startLogOutWorker()
                     if (getCallingActivity(requireActivity()) == null) {
                         openMainActivity()
                     } else {
@@ -66,6 +72,20 @@ class LogInFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun startLogOutWorker() {
+        val logOutRequest = OneTimeWorkRequestBuilder<LogOutWorker>()
+            .setInitialDelay(Duration.ofSeconds(30))
+            .build()
+        val workManager = WorkManager.getInstance(this.requireContext())
+        workManager
+            .beginUniqueWork(
+                "logout",
+                ExistingWorkPolicy.REPLACE,
+                logOutRequest
+            )
+            .enqueue()
     }
 
     private fun openMainActivity() {
