@@ -75,7 +75,8 @@ object AppModule {
         wishlistDao: WishlistDao,
         dataStoreManager: DataStoreManager,
     ): ShopRepository {
-        return ShopRepository(productDao,
+        return ShopRepository(
+            productDao,
             categoryDao,
             userDao,
             cartDao,

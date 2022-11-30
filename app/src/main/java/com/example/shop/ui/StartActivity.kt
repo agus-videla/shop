@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.shop.databinding.ActivityStartBinding
 import com.example.shop.ui.authentication.AuthenticationActivity
-import com.example.shop.ui.main.MainActivity
+import com.example.shop.ui.main.ShopActivity
 
 class StartActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStartBinding
@@ -20,7 +20,7 @@ class StartActivity : AppCompatActivity() {
             openActivity(intent)
         }
         binding.btnShop.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, ShopActivity::class.java)
             openActivity(intent)
         }
     }

@@ -9,19 +9,19 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.shop.R
-import com.example.shop.databinding.ActivityMainBinding
+import com.example.shop.databinding.ActivityShopBinding
 import com.example.shop.ui.StartActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class ShopActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityShopBinding
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityShopBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 

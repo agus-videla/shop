@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.shop.R
 import com.example.shop.databinding.FragmentSignUpBinding
-import com.example.shop.ui.digest
+import com.example.shop.ui.authentication.digest
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
