@@ -5,12 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.shop.ShopFragment">
+    tools:context=".feature_shop.presentation.shop.ShopFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ui.main.shop.ShopFragment">
+        tools:context=".feature_shop.presentation.shop.ShopFragment">
 
         <Button
             android:id="@+id/btnFilters"
@@ -55,7 +55,7 @@
             app:layout_constraintTop_toTopOf="@id/spSortBy"
             android:background="@android:color/transparent"
             android:layout_marginEnd="5dp"
-            android:src="@drawable/ic_desc"
+            android:src="@drawable/ic_asc"
             android:contentDescription="@string/change_sorting_order" />
 
         <LinearLayout

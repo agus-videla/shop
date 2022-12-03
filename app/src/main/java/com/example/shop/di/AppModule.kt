@@ -2,11 +2,20 @@ package com.example.shop.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.shop.data.ShopRepository
-import com.example.shop.data.database.ShopDatabase
-import com.example.shop.data.database.callbacks.*
-import com.example.shop.data.database.dao.*
-import com.example.shop.data.datastore.DataStoreManager
+import com.example.shop.core.data.repository.ShopRepositoryImpl
+import com.example.shop.core.data.data_source.ShopDatabase
+import com.example.shop.core.data.data_source.callbacks.CategoryCallback
+import com.example.shop.core.data.data_source.callbacks.ProductCallback
+import com.example.shop.core.data.data_source.callbacks.UserCallback
+import com.example.shop.core.data.data_source.dao.*
+import com.example.shop.core.data.datastore.DataStoreManager
+import com.example.shop.core.data.repository.ShopRepository
+import com.example.shop.feature_shop.domain.repository.ProductRepository
+import com.example.shop.feature_shop.domain.repository.WishlistRepository
+import com.example.shop.feature_shop.domain.use_case.GetProducts
+import com.example.shop.feature_shop.domain.use_case.GetWishlist
+import com.example.shop.feature_shop.domain.use_case.ProductUseCases
+import com.example.shop.feature_shop.domain.use_case.ToggleWished
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -66,7 +75,63 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(
+    fun provideProductUseCases(
+        productRepository: ProductRepository,
+        wishlistRepository: WishlistRepository,
+    ): ProductUseCases {
+        return ProductUseCases(
+            getProducts = GetProducts(productRepository),
+            getWishlist = GetWishlist(wishlistRepository),
+            toggleWished = ToggleWished(wishlistRepository)
+        )
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideWishlistRepository(
+        productDao: ProductDao,
+        categoryDao: CategoryDao,
+        userDao: UserDao,
+        cartDao: CartDao,
+        cartItemDao: CartItemDao,
+        wishlistDao: WishlistDao,
+        dataStoreManager: DataStoreManager,
+    ): WishlistRepository {
+        return ShopRepositoryImpl(
+            productDao,
+            categoryDao,
+            userDao,
+            cartDao,
+            cartItemDao,
+            wishlistDao,
+            dataStoreManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductRepository(
+        productDao: ProductDao,
+        categoryDao: CategoryDao,
+        userDao: UserDao,
+        cartDao: CartDao,
+        cartItemDao: CartItemDao,
+        wishlistDao: WishlistDao,
+        dataStoreManager: DataStoreManager,
+    ): ProductRepository {
+        return ShopRepositoryImpl(
+            productDao,
+            categoryDao,
+            userDao,
+            cartDao,
+            cartItemDao,
+            wishlistDao,
+            dataStoreManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideShopRepository(
         productDao: ProductDao,
         categoryDao: CategoryDao,
         userDao: UserDao,
@@ -75,7 +140,7 @@ object AppModule {
         wishlistDao: WishlistDao,
         dataStoreManager: DataStoreManager,
     ): ShopRepository {
-        return ShopRepository(
+        return ShopRepositoryImpl(
             productDao,
             categoryDao,
             userDao,

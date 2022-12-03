@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name=".ShopApplication"
+        android:name=".core.presentation.ShopApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -16,7 +16,7 @@
         android:theme="@style/Theme.Gallery"
         tools:targetApi="31">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".core.presentation.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +29,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.authentication.AuthenticationActivity"
+            android:name=".feature_authentication.presentation.AuthenticationActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -48,10 +48,10 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.main.ShopActivity"
+            android:name=".feature_shop.presentation.ShopActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.StartActivity"
+            android:name=".core.presentation.StartActivity"
             android:exported="true">
         </activity>
     </application>
