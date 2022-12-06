@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context=".feature_shop.presentation.cart.CartFragment">
+    tools:context=".feature_cart.presentation.components.CartFragment">
 
     <TextView
         android:id="@+id/tvTitle"

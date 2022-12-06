@@ -10,12 +10,11 @@ import com.example.shop.core.data.data_source.callbacks.UserCallback
 import com.example.shop.core.data.data_source.dao.*
 import com.example.shop.core.data.datastore.DataStoreManager
 import com.example.shop.core.data.repository.ShopRepository
-import com.example.shop.feature_shop.domain.repository.ProductRepository
-import com.example.shop.feature_shop.domain.repository.WishlistRepository
-import com.example.shop.feature_shop.domain.use_case.GetProducts
-import com.example.shop.feature_shop.domain.use_case.GetWishlist
-import com.example.shop.feature_shop.domain.use_case.ProductUseCases
-import com.example.shop.feature_shop.domain.use_case.ToggleWished
+import com.example.shop.feature_cart.domain.repository.CartRepository
+import com.example.shop.feature_cart.domain.use_case.*
+import com.example.shop.feature_gondola.domain.repository.ProductRepository
+import com.example.shop.feature_gondola.domain.repository.WishlistRepository
+import com.example.shop.feature_gondola.domain.use_case.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -75,14 +74,31 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideCartUseCases(
+        cartRepository: CartRepository,
+        productRepository: ProductRepository
+    ): CartUseCases {
+        return CartUseCases(
+            addToCart = AddToCart(cartRepository),
+            removeFromCart = RemoveFromCart(cartRepository),
+            deleteFromCart = DeleteFromCart(cartRepository),
+            getCartItems = GetCartItems(cartRepository,productRepository),
+            transferCart = TransferCart(cartRepository)
+        )
+    }
+
+    @Provides
+    @Singleton
     fun provideProductUseCases(
         productRepository: ProductRepository,
         wishlistRepository: WishlistRepository,
+        cartRepository: CartRepository
     ): ProductUseCases {
         return ProductUseCases(
             getProducts = GetProducts(productRepository),
             getWishlist = GetWishlist(wishlistRepository),
-            toggleWished = ToggleWished(wishlistRepository)
+            toggleWished = ToggleWished(wishlistRepository),
+            addToCart = AddToCart(cartRepository)
         )
     }
 
@@ -98,6 +114,27 @@ object AppModule {
         wishlistDao: WishlistDao,
         dataStoreManager: DataStoreManager,
     ): WishlistRepository {
+        return ShopRepositoryImpl(
+            productDao,
+            categoryDao,
+            userDao,
+            cartDao,
+            cartItemDao,
+            wishlistDao,
+            dataStoreManager)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartRepository(
+        productDao: ProductDao,
+        categoryDao: CategoryDao,
+        userDao: UserDao,
+        cartDao: CartDao,
+        cartItemDao: CartItemDao,
+        wishlistDao: WishlistDao,
+        dataStoreManager: DataStoreManager,
+    ): CartRepository {
         return ShopRepositoryImpl(
             productDao,
             categoryDao,

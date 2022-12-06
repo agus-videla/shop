@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.shop.databinding.ActivityStartBinding
 import com.example.shop.feature_authentication.presentation.AuthenticationActivity
-import com.example.shop.feature_shop.presentation.ShopActivity
 
 class StartActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStartBinding

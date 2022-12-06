@@ -9,7 +9,7 @@ import com.example.shop.core.data.data_source.entities.Cart
 @Dao
 interface CartDao {
     @Query("SELECT id FROM Cart WHERE status = 'PENDING' AND user_id = :userId")
-    fun getPendingCart(userId: Int): Int?
+    suspend fun getPendingCart(userId: Int): Int?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addCart(cart: Cart): Long
@@ -21,5 +21,5 @@ interface CartDao {
     suspend fun cancelCart(userId: Int)
 
     @Query("DELETE FROM Cart")
-    fun removeAll()
+    suspend fun removeAll()
 }

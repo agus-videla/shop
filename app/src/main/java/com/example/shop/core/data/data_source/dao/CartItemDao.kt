@@ -14,10 +14,10 @@ interface CartItemDao {
     fun getCartItems(cartId: Int): Flow<List<CartItem>>
 
     @Query("SELECT * FROM CartItem WHERE cart_id = :cartId AND product_id = :productId")
-    fun getCartItem(cartId: Int, productId: Int): CartItem?
+    suspend fun getCartItem(cartId: Int, productId: Int): CartItem?
 
     @Query("DELETE FROM CartItem WHERE product_id = :productId")
-    fun removeCartItem(productId: Int)
+    suspend fun removeCartItem(productId: Int)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addCartItem(cartItem: CartItem): Long
@@ -26,5 +26,5 @@ interface CartItemDao {
     suspend fun updateCartItem(cartItem: CartItem)
 
     @Query("DELETE FROM CartItem")
-    fun removeAll()
+    suspend fun removeAll()
 }

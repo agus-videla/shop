@@ -15,7 +15,7 @@ import androidx.navigation.Navigation
 import com.example.shop.R
 import com.example.shop.databinding.FragmentLogInBinding
 import com.example.shop.ui.authentication.digest
-import com.example.shop.feature_shop.presentation.ShopActivity
+import com.example.shop.core.presentation.ShopActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

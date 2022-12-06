@@ -23,7 +23,7 @@ class CartItemCallback(
         }
     }
 
-    private fun delete() {
+    private suspend fun delete() {
         provider.get().removeAll()
     }
 }

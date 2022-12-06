@@ -48,7 +48,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".feature_shop.presentation.ShopActivity"
+            android:name=".core.presentation.ShopActivity"
             android:exported="false" />
         <activity
             android:name=".core.presentation.StartActivity"
