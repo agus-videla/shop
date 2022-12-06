@@ -27,8 +27,10 @@ class CartViewModel @Inject constructor(
 
     private suspend fun getCartItems() {
         getCartItemsJob?.cancel()
-        getCartItemsJob = cartUseCases.getCartItems().onEach {
-            _state.value = _state.value.copy(cartItems = it)
+        getCartItemsJob = cartUseCases.getCartItems().onEach { cartItems ->
+            _state.update {
+                it.copy(cartItems = cartItems)
+            }
         }.launchIn(viewModelScope)
     }
 
@@ -43,11 +45,14 @@ class CartViewModel @Inject constructor(
             is CartEvent.DeleteFromCart -> {
                 cartUseCases.deleteFromCart(event.productId)
             }
-            is CartEvent.UserLoggedIn -> {
+            is CartEvent.IsUserLoggedIn -> {
+                _state.update {
+                    it.copy(userIsLoggedIn = cartUseCases.isUserLoggedIn())
+                }
+            }
+            is CartEvent.TransferCart -> {
                 cartUseCases.transferCart()
             }
         }
     }
-
-    suspend fun userIsLoggedIn(): Boolean = repository.userIsLoggedIn()
 }

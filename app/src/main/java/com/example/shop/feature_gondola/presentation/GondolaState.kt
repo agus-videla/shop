@@ -7,6 +7,7 @@ import com.example.shop.feature_gondola.util.SortBy
 import com.example.shop.feature_gondola.util.SortOrder
 
 data class GondolaState(
+    var userIsLoggedIn: Boolean? = null,
     var products: List<Product> = emptyList(),
     var wishlist: List<Product> = emptyList(),
     var wishlistVisibility: Int = View.GONE,

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature_authentication.presentation.signup.SignUpFragment">
+    tools:context=".feature_authentication.presentation.signup.components.SignUpFragment">
 
     <TextView
         android:id="@+id/LogInText"

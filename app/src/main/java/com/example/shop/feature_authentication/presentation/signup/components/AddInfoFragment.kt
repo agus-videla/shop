@@ -1,4 +1,4 @@
-package com.example.shop.feature_authentication.presentation.signup
+package com.example.shop.feature_authentication.presentation.signup.components
 
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -23,6 +23,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.shop.R
 import com.example.shop.core.data.data_source.entities.User
 import com.example.shop.databinding.FragmentAddInfoBinding
+import com.example.shop.feature_authentication.presentation.signup.AddInfoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

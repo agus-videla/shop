@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shop.R
 import com.example.shop.databinding.CartItemBinding
-import com.example.shop.feature_cart.domain.use_case.CartItemWithProduct
+import com.example.shop.feature_cart.util.CartItemWithProduct
 
 class CartItemAdapter(
     private val items: List<CartItemWithProduct>,

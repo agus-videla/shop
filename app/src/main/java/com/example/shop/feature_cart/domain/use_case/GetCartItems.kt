@@ -1,6 +1,6 @@
 package com.example.shop.feature_cart.domain.use_case
 
-import com.example.shop.core.data.data_source.entities.Product
+import com.example.shop.feature_cart.util.CartItemWithProduct
 import com.example.shop.feature_cart.domain.repository.CartRepository
 import com.example.shop.feature_gondola.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.Flow
@@ -18,14 +18,5 @@ class GetCartItems(
                     cartItem.quantity)
             }
         }
-    }
-}
-
-data class CartItemWithProduct(
-    val product: Product,
-    val quantity: Int,
-) {
-    fun subTotal(): Long {
-        return product.price * quantity
     }
 }

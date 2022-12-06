@@ -4,5 +4,6 @@ sealed class CartEvent {
     data class AddToCart(val productId: Int): CartEvent()
     data class RemoveFromCart(val productId: Int): CartEvent()
     data class DeleteFromCart(val productId: Int): CartEvent()
-    object UserLoggedIn : CartEvent()
+    object IsUserLoggedIn : CartEvent()
+    object TransferCart : CartEvent()
 }

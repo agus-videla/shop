@@ -62,7 +62,6 @@ class GondolaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.state.onEach {
             Log.d("stateflow", "something's changed...")
             binding.tvWishlist.visibility = it.wishlistVisibility
@@ -146,7 +145,8 @@ class GondolaFragment : Fragment() {
 
     private fun onWishlistItem(id: Int, position: Int) {
         lifecycleScope.launch {
-            if (viewModel.userIsLoggedIn()) {
+            viewModel.onEvent(GondolaEvent.IsUserLoggedIn)
+            if (viewModel.state.value.userIsLoggedIn == true) {
                 viewModel.onEvent(GondolaEvent.ToggleWish(id))
                 prodAdapter.notifyItemChanged(position)
             } else {

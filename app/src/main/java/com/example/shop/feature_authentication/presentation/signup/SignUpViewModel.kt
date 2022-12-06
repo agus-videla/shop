@@ -1,47 +1,59 @@
 package com.example.shop.feature_authentication.presentation.signup
 
+import android.view.View
+import android.widget.ImageView
 import androidx.lifecycle.ViewModel
-import com.example.shop.core.data.repository.ShopRepositoryImpl
+import com.example.shop.R
+import com.example.shop.feature_authentication.domain.use_case.AuthenticationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val repository: ShopRepositoryImpl,
+    private val authUseCases: AuthenticationUseCases
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<uiState>(uiState())
-    val uiState: StateFlow<uiState> get() = _uiState.asStateFlow()
+    private val _state = MutableStateFlow(SignUpState())
+    val state: StateFlow<SignUpState> get() = _state
 
-    suspend fun validateUsername(username: CharSequence?) : Boolean {
-        return repository.usernameAvailable(username.toString())
-    }
-
-    fun isUserValid(b: Boolean) {
-        _uiState.update {
-            it.copy(isUserValid = b)
+    suspend fun onEvent(event: SignUpEvent) {
+        val b: Boolean
+        when (event) {
+            is SignUpEvent.UserChanged -> {
+                b = (event.user?.length ?: 0) >= 4 && authUseCases.isUsernameAvailable(event.user)
+                _state.update {
+                    it.copy(isUserValid = b)
+                }
+                handleUiState(b, event.imgView)
+            }
+            is SignUpEvent.PasswordChanged -> {
+                b = (event.pass?.length ?: 0) >= 4
+                _state.update {
+                    it.copy(isPasswordValid = b)
+                }
+                handleUiState(b, event.imgView)
+            }
+            is SignUpEvent.RepeatPassChanged -> {
+                b = event.pass == event.repeat
+                _state.update {
+                    it.copy(arePasswordsEqual = b)
+                }
+                handleUiState(b, event.imgView)
+            }
         }
     }
 
-    fun isPasswordValid(b: Boolean) {
-        _uiState.update {
-            it.copy(isPasswordValid = b)
+    private fun handleUiState(b: Boolean?, iv: ImageView) {
+        b?.let {
+            iv.visibility = View.VISIBLE
         }
-    }
-
-    fun arePasswordsEqual(b: Boolean) {
-        _uiState.update {
-            it.copy(arePasswordsEqual = b)
+        when (b) {
+            true -> iv.setImageResource(R.drawable.ic_check)
+            false -> iv.setImageResource(R.drawable.ic_close)
+            null -> iv.visibility = View.GONE
         }
     }
 }
-
-data class uiState(
-    var isUserValid: Boolean? = null,
-    var arePasswordsEqual: Boolean? = null,
-    var isPasswordValid: Boolean? = null
-)

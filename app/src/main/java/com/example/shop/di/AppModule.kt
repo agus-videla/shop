@@ -9,7 +9,11 @@ import com.example.shop.core.data.data_source.callbacks.ProductCallback
 import com.example.shop.core.data.data_source.callbacks.UserCallback
 import com.example.shop.core.data.data_source.dao.*
 import com.example.shop.core.data.datastore.DataStoreManager
+import com.example.shop.core.data.domain.use_case.IsUserLoggedIn
 import com.example.shop.core.data.repository.ShopRepository
+import com.example.shop.feature_authentication.domain.repository.UserRepository
+import com.example.shop.feature_authentication.domain.use_case.AuthenticationUseCases
+import com.example.shop.feature_authentication.domain.use_case.IsUsernameAvailable
 import com.example.shop.feature_cart.domain.repository.CartRepository
 import com.example.shop.feature_cart.domain.use_case.*
 import com.example.shop.feature_gondola.domain.repository.ProductRepository
@@ -76,14 +80,26 @@ object AppModule {
     @Singleton
     fun provideCartUseCases(
         cartRepository: CartRepository,
-        productRepository: ProductRepository
+        productRepository: ProductRepository,
+        userRepository: UserRepository
     ): CartUseCases {
         return CartUseCases(
             addToCart = AddToCart(cartRepository),
             removeFromCart = RemoveFromCart(cartRepository),
             deleteFromCart = DeleteFromCart(cartRepository),
             getCartItems = GetCartItems(cartRepository,productRepository),
-            transferCart = TransferCart(cartRepository)
+            transferCart = TransferCart(cartRepository),
+            isUserLoggedIn = IsUserLoggedIn(userRepository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthUseCases(
+        userRepository: UserRepository
+    ): AuthenticationUseCases {
+        return AuthenticationUseCases(
+            isUsernameAvailable = IsUsernameAvailable(userRepository)
         )
     }
 
@@ -92,14 +108,37 @@ object AppModule {
     fun provideProductUseCases(
         productRepository: ProductRepository,
         wishlistRepository: WishlistRepository,
-        cartRepository: CartRepository
+        cartRepository: CartRepository,
+        userRepository: UserRepository
     ): ProductUseCases {
         return ProductUseCases(
             getProducts = GetProducts(productRepository),
             getWishlist = GetWishlist(wishlistRepository),
             toggleWished = ToggleWished(wishlistRepository),
-            addToCart = AddToCart(cartRepository)
+            addToCart = AddToCart(cartRepository),
+            isUserLoggedIn = IsUserLoggedIn(userRepository)
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(
+        productDao: ProductDao,
+        categoryDao: CategoryDao,
+        userDao: UserDao,
+        cartDao: CartDao,
+        cartItemDao: CartItemDao,
+        wishlistDao: WishlistDao,
+        dataStoreManager: DataStoreManager,
+    ): UserRepository {
+        return ShopRepositoryImpl(
+            productDao,
+            categoryDao,
+            userDao,
+            cartDao,
+            cartItemDao,
+            wishlistDao,
+            dataStoreManager)
     }
 
 

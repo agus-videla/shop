@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GondolaViewModel @Inject constructor(
-    private val repository: ShopRepositoryImpl,
     private val productUseCases: ProductUseCases,
 ) : ViewModel() {
     private val _state = MutableStateFlow(GondolaState())
@@ -44,37 +43,54 @@ class GondolaViewModel @Inject constructor(
             is GondolaEvent.ToggleWish -> {
                 productUseCases.toggleWished(event.productId)
             }
+            is GondolaEvent.IsUserLoggedIn -> {
+                _state.update {
+                    it.copy(userIsLoggedIn = productUseCases.isUserLoggedIn())
+                }
+
+            }
         }
     }
 
     private fun setSortIcon(sort: SortBy) {
         when (sort.sortOrder) {
-            SortOrder.Ascending -> _state.value = _state.value.copy(sortIconId = R.drawable.ic_desc)
-            SortOrder.Descending -> _state.value =
-                _state.value.copy(sortIconId = R.drawable.ic_asc)
+            SortOrder.Ascending -> _state.update {
+                it.copy(sortIconId = R.drawable.ic_desc)
+            }
+            SortOrder.Descending -> _state.update {
+                it.copy(sortIconId = R.drawable.ic_asc)
+            }
         }
     }
 
     private fun getProducts(productOrder: SortBy) {
         getProductsJob?.cancel()
-        getProductsJob = productUseCases.getProducts(productOrder).onEach {
-            _state.value = _state.value.copy(products = it)
+        getProductsJob = productUseCases.getProducts(productOrder).onEach { products ->
+            _state.update {
+                it.copy(products = products)
+            }
         }.launchIn(viewModelScope)
-        _state.value = _state.value.copy(productOrder = productOrder)
+        _state.update {
+            it.copy(productOrder = productOrder)
+        }
     }
 
     suspend fun getWishlist() {
         getWishlistJob?.cancel()
-        getWishlistJob = productUseCases.getWishlist().onEach {
-            if (it.isEmpty())
-                _state.value = _state.value.copy(wishlistVisibility = View.GONE)
+        getWishlistJob = productUseCases.getWishlist().onEach { wishlist ->
+            if (wishlist.isEmpty())
+                _state.update {
+                    it.copy(wishlistVisibility = View.GONE)
+                }
             else
-                _state.value = _state.value.copy(wishlistVisibility = View.VISIBLE)
-            _state.value = _state.value.copy(wishlist = it)
+                _state.update {
+                    it.copy(wishlistVisibility = View.VISIBLE)
+                }
+            _state.update {
+                it.copy(wishlist = wishlist)
+            }
         }.launchIn(viewModelScope)
     }
-
-    suspend fun userIsLoggedIn(): Boolean = repository.userIsLoggedIn()
 
     fun isWished(id: Int): Boolean {
         return state.value.wishlist.any {
