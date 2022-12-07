@@ -12,7 +12,9 @@ import com.example.shop.core.domain.use_case.IsUserLoggedIn
 import com.example.shop.feature_authentication.data.repository.UserRepositoryImp
 import com.example.shop.feature_authentication.domain.repository.UserRepository
 import com.example.shop.feature_authentication.domain.use_case.AuthUseCases
+import com.example.shop.feature_authentication.domain.use_case.GetUserIdIfExists
 import com.example.shop.feature_authentication.domain.use_case.IsUsernameAvailable
+import com.example.shop.feature_authentication.domain.use_case.SetActiveUser
 import com.example.shop.feature_cart.data.repository.CartRepositoryImp
 import com.example.shop.feature_cart.domain.repository.CartRepository
 import com.example.shop.feature_cart.domain.use_case.*
@@ -101,7 +103,9 @@ object AppModule {
         userRepository: UserRepository
     ): AuthUseCases {
         return AuthUseCases(
-            isUsernameAvailable = IsUsernameAvailable(userRepository)
+            isUsernameAvailable = IsUsernameAvailable(userRepository),
+            getUserIdIfExists = GetUserIdIfExists(userRepository),
+            setActiveUser = SetActiveUser(userRepository)
         )
     }
 

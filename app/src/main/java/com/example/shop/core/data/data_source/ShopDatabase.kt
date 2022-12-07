@@ -4,7 +4,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.shop.core.data.data_source.dao.*
-import com.example.shop.core.data.data_source.entities.*
 import com.example.shop.core.domain.model.*
 
 @Database(entities = [Product::class, Category::class, User::class, Cart::class, CartItem::class, WishlistItem::class],
