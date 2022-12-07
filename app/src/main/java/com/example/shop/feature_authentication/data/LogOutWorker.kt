@@ -1,4 +1,4 @@
-package com.example.shop.core.data
+package com.example.shop.feature_authentication.data
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker

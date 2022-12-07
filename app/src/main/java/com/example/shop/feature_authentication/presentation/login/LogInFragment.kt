@@ -16,7 +16,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.shop.R
-import com.example.shop.core.data.LogOutWorker
+import com.example.shop.feature_authentication.data.LogOutWorker
 import com.example.shop.databinding.FragmentLogInBinding
 import com.example.shop.ui.authentication.digest
 import com.example.shop.core.presentation.ShopActivity
@@ -76,7 +76,7 @@ class LogInFragment : Fragment() {
 
     private fun startLogOutWorker() {
         val logOutRequest = OneTimeWorkRequestBuilder<LogOutWorker>()
-            .setInitialDelay(Duration.ofSeconds(30))
+            .setInitialDelay(Duration.ofSeconds(10))
             .build()
         val workManager = WorkManager.getInstance(this.requireContext())
         workManager
