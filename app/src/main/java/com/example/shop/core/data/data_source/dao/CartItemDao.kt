@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.shop.core.data.data_source.entities.CartItem
+import com.example.shop.core.domain.model.CartItem
 import kotlinx.coroutines.flow.Flow
 
 @Dao

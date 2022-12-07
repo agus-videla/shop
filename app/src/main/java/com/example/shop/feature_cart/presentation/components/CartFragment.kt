@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.shop.core.data.data_source.entities.Cart
 import com.example.shop.databinding.FragmentCartBinding
 import com.example.shop.feature_authentication.presentation.AuthenticationActivity
 import com.example.shop.feature_cart.presentation.CartEvent

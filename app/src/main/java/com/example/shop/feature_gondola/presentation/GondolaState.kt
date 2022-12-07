@@ -2,7 +2,7 @@ package com.example.shop.feature_gondola.presentation
 
 import android.view.View
 import com.example.shop.R
-import com.example.shop.core.data.data_source.entities.Product
+import com.example.shop.core.domain.model.Product
 import com.example.shop.feature_gondola.util.SortBy
 import com.example.shop.feature_gondola.util.SortOrder
 

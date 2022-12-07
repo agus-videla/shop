@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.shop.core.data.data_source.entities.Product
-import com.example.shop.core.data.data_source.entities.WishlistItem
+import com.example.shop.core.domain.model.Product
+import com.example.shop.core.domain.model.WishlistItem
 import kotlinx.coroutines.flow.Flow
 
 @Dao

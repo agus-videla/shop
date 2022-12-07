@@ -1,6 +1,6 @@
 package com.example.shop.feature_gondola.domain.repository
 
-import com.example.shop.core.data.data_source.entities.Product
+import com.example.shop.core.domain.model.Product
 import kotlinx.coroutines.flow.Flow
 
 interface WishlistRepository {

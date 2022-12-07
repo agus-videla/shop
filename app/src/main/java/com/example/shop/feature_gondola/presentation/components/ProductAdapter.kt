@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shop.R
-import com.example.shop.core.data.data_source.entities.Product
+import com.example.shop.core.domain.model.Product
 import com.example.shop.databinding.ShopItemBinding
 
 class ProductAdapter(

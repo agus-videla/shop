@@ -1,6 +1,6 @@
 package com.example.shop.feature_gondola.domain.use_case
 
-import com.example.shop.core.data.domain.use_case.IsUserLoggedIn
+import com.example.shop.core.domain.use_case.IsUserLoggedIn
 import com.example.shop.feature_cart.domain.use_case.AddToCart
 
 data class ProductUseCases(

@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.shop.core.data.data_source.dao.CategoryDao
-import com.example.shop.core.data.data_source.entities.Category
+import com.example.shop.core.domain.model.Category
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

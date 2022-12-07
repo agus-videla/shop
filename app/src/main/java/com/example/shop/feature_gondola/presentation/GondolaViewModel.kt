@@ -4,7 +4,6 @@ import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shop.R
-import com.example.shop.core.data.repository.ShopRepositoryImpl
 import com.example.shop.feature_gondola.domain.use_case.ProductUseCases
 import com.example.shop.feature_gondola.util.SortBy
 import com.example.shop.feature_gondola.util.SortOrder

@@ -1,4 +1,4 @@
-package com.example.shop.core.data.domain.use_case
+package com.example.shop.core.domain.use_case
 
 import com.example.shop.feature_authentication.domain.repository.UserRepository
 

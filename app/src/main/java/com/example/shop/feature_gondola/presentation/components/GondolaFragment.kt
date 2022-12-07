@@ -14,7 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.shop.core.data.data_source.entities.Product
+import com.example.shop.core.domain.model.Product
 import com.example.shop.databinding.FragmentGondolaBinding
 import com.example.shop.feature_authentication.presentation.AuthenticationActivity
 import com.example.shop.feature_gondola.presentation.GondolaEvent

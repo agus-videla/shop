@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.lifecycle.ViewModel
 import com.example.shop.R
-import com.example.shop.feature_authentication.domain.use_case.AuthenticationUseCases
+import com.example.shop.feature_authentication.domain.use_case.AuthUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,35 +13,35 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val authUseCases: AuthenticationUseCases
+    private val authUseCases: AuthUseCases,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SignUpState())
     val state: StateFlow<SignUpState> get() = _state
 
     suspend fun onEvent(event: SignUpEvent) {
-        val b: Boolean
         when (event) {
             is SignUpEvent.UserChanged -> {
-                b = (event.user?.length ?: 0) >= 4 && authUseCases.isUsernameAvailable(event.user)
+                val isUserValid =
+                    (event.user?.length ?: 0) >= 4 && authUseCases.isUsernameAvailable(event.user)
                 _state.update {
-                    it.copy(isUserValid = b)
+                    it.copy(isUserValid = isUserValid)
                 }
-                handleUiState(b, event.imgView)
+                handleUiState(isUserValid, event.imgView)
             }
             is SignUpEvent.PasswordChanged -> {
-                b = (event.pass?.length ?: 0) >= 4
+                val isPasswordValid = (event.pass?.length ?: 0) >= 4
                 _state.update {
-                    it.copy(isPasswordValid = b)
+                    it.copy(isPasswordValid = isPasswordValid)
                 }
-                handleUiState(b, event.imgView)
+                handleUiState(isPasswordValid, event.imgView)
             }
             is SignUpEvent.RepeatPassChanged -> {
-                b = event.pass == event.repeat
+                val arePasswordsEqual = event.pass == event.repeat
                 _state.update {
-                    it.copy(arePasswordsEqual = b)
+                    it.copy(arePasswordsEqual = arePasswordsEqual)
                 }
-                handleUiState(b, event.imgView)
+                handleUiState(arePasswordsEqual, event.imgView)
             }
         }
     }

@@ -2,7 +2,6 @@ package com.example.shop.feature_cart.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shop.core.data.repository.ShopRepositoryImpl
 import com.example.shop.feature_cart.domain.use_case.CartUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -11,8 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val cartUseCases: CartUseCases,
-    private val repository: ShopRepositoryImpl,
+    private val cartUseCases: CartUseCases
 ) : ViewModel() {
     private val _state = MutableStateFlow(CartState())
     val state: StateFlow<CartState> get() = _state

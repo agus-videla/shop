@@ -1,6 +1,6 @@
 package com.example.shop.feature_cart.util
 
-import com.example.shop.core.data.data_source.entities.Product
+import com.example.shop.core.domain.model.Product
 
 data class CartItemWithProduct(
     val product: Product,

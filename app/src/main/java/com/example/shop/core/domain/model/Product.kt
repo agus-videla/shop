@@ -1,4 +1,4 @@
-package com.example.shop.core.data.data_source.entities
+package com.example.shop.core.domain.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
