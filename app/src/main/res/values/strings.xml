@@ -31,4 +31,7 @@
     <string name="wishlist">Wishlist</string>
     <string name="on_your_wishlist">On Your Wishlist</string>
     <string name="log_out">Log Out</string>
+    <string name="you_have_been_logged_out">You have been logged out. \nPlease log in again to keep using the app.</string>
+    <string name="ok">OK</string>
+    <string name="session_expired">Session Expired</string>
 </resources>

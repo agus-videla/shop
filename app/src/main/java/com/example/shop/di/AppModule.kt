@@ -3,9 +3,9 @@ package com.example.shop.di
 import android.content.Context
 import androidx.room.Room
 import com.example.shop.core.data.data_source.ShopDatabase
-import com.example.shop.core.data.data_source.callbacks.CategoryCallback
-import com.example.shop.core.data.data_source.callbacks.ProductCallback
-import com.example.shop.core.data.data_source.callbacks.UserCallback
+import com.example.shop.core.data.data_source.callbacks.AddCategoriesCallback
+import com.example.shop.core.data.data_source.callbacks.AddProductsCallback
+import com.example.shop.core.data.data_source.callbacks.AddAnonUserCallback
 import com.example.shop.core.data.data_source.dao.*
 import com.example.shop.core.data.datastore.DataStoreManager
 import com.example.shop.core.domain.use_case.IsUserLoggedIn
@@ -34,27 +34,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideShopDatabase(
-        @ApplicationContext context: Context,
-        categoryProvider: Provider<CategoryDao>,
-        productProvider: Provider<ProductDao>,
-        userProvider: Provider<UserDao>,
-        cartProvider: Provider<CartDao>,
-    ): ShopDatabase {
-        return Room.databaseBuilder(
-            context,
-            ShopDatabase::class.java,
-            "shop_database"
-        )
-            .addCallback(UserCallback(userProvider))
-            .addCallback(CategoryCallback(categoryProvider))
-            .addCallback(ProductCallback(productProvider))
-            .fallbackToDestructiveMigration()
-            .build()
-    }
-
-    @Singleton
-    @Provides
     fun provideProductDao(db: ShopDatabase) = db.productDao()
 
     @Singleton
@@ -67,15 +46,69 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideCartDao(db: ShopDatabase) = db.cartDao()
+    fun provideShopDatabase(
+        @ApplicationContext context: Context,
+        categoryProvider: Provider<CategoryDao>,
+        productProvider: Provider<ProductDao>,
+        userProvider: Provider<UserDao>,
+    ): ShopDatabase {
+        return Room.databaseBuilder(
+            context,
+            ShopDatabase::class.java,
+            "shop_database"
+        )
+            .addCallback(AddAnonUserCallback(userProvider))
+            .addCallback(AddCategoriesCallback(categoryProvider))
+            .addCallback(AddProductsCallback(productProvider))
+            .fallbackToDestructiveMigration()
+            .build()
+    }
 
-    @Singleton
     @Provides
-    fun provideCartItemDao(db: ShopDatabase) = db.cartItemDao()
+    @Singleton
+    fun provideUserRepository(
+        db: ShopDatabase,
+        dataStoreManager: DataStoreManager,
+    ): UserRepository {
+        return UserRepositoryImp(
+            db.userDao(),
+            dataStoreManager
+        )
+    }
 
-    @Singleton
+
     @Provides
-    fun provideWishlistDao(db: ShopDatabase) = db.wishlistDao()
+    @Singleton
+    fun provideWishlistRepository(
+        db: ShopDatabase,
+        dataStoreManager: DataStoreManager,
+    ): WishlistRepository {
+        return WishlistRepositoryImp(
+            db.wishlistDao(),
+            dataStoreManager
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartRepository(
+        db: ShopDatabase,
+        dataStoreManager: DataStoreManager,
+    ): CartRepository {
+        return CartRepositoryImp(
+            db.cartItemDao(),
+            db.cartDao(),
+            dataStoreManager
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductRepository(
+        db: ShopDatabase
+    ): ProductRepository {
+        return ProductRepositoryImp(db.productDao())
+    }
 
     @Provides
     @Singleton
@@ -88,7 +121,7 @@ object AppModule {
             addToCart = AddToCart(cartRepository),
             removeFromCart = RemoveFromCart(cartRepository),
             deleteFromCart = DeleteFromCart(cartRepository),
-            getCartItems = GetCartItems(cartRepository,productRepository),
+            getCartItems = GetCartItems(cartRepository, productRepository),
             transferCart = TransferCart(cartRepository),
             isUserLoggedIn = IsUserLoggedIn(userRepository)
         )
@@ -122,52 +155,5 @@ object AppModule {
             addToCart = AddToCart(cartRepository),
             isUserLoggedIn = IsUserLoggedIn(userRepository)
         )
-    }
-
-    @Provides
-    @Singleton
-    fun provideUserRepository(
-        userDao: UserDao,
-        dataStoreManager: DataStoreManager,
-    ): UserRepository {
-        return UserRepositoryImp(
-            userDao,
-            dataStoreManager
-        )
-    }
-
-
-    @Provides
-    @Singleton
-    fun provideWishlistRepository(
-        wishlistDao: WishlistDao,
-        dataStoreManager: DataStoreManager,
-    ): WishlistRepository {
-        return WishlistRepositoryImp(
-            wishlistDao,
-            dataStoreManager
-        )
-    }
-
-    @Provides
-    @Singleton
-    fun provideCartRepository(
-        cartDao: CartDao,
-        cartItemDao: CartItemDao,
-        dataStoreManager: DataStoreManager,
-    ): CartRepository {
-        return CartRepositoryImp(
-            cartItemDao,
-            cartDao,
-            dataStoreManager
-        )
-    }
-
-    @Provides
-    @Singleton
-    fun provideProductRepository(
-        productDao: ProductDao,
-    ): ProductRepository {
-        return ProductRepositoryImp(productDao)
     }
 }

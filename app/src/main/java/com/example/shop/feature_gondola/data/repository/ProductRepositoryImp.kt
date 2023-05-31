@@ -13,7 +13,7 @@ class ProductRepositoryImp @Inject constructor(
         return productDao.getProducts()
     }
 
-    override fun getProduct(idProduct: Int): Flow<Product> {
+    override suspend fun getProduct(idProduct: Int): Product {
         return productDao.getProduct(idProduct)
     }
 }

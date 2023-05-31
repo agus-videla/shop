@@ -14,10 +14,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shop.databinding.FragmentCartBinding
 import com.example.shop.feature_authentication.presentation.AuthenticationActivity
+import com.example.shop.feature_authentication.presentation.LoggedOutDialogFragment
 import com.example.shop.feature_cart.presentation.CartEvent
 import com.example.shop.feature_cart.presentation.CartViewModel
 import com.example.shop.feature_cart.util.CartItemWithProduct
-import com.example.shop.ui.ShippingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -102,8 +102,7 @@ class CartFragment : Fragment() {
     }
 
     private fun openShippingActivity() {
-        val intent = Intent(this.context, ShippingActivity::class.java)
-        startActivity(intent)
+        Toast.makeText(context,"Not implemented", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

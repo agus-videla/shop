@@ -28,7 +28,7 @@ class CartRepositoryImp @Inject constructor(
         cartItemDao.removeCartItem(id)
     }
 
-    override suspend fun setCart(): Int {
+    override suspend fun createNewPendingCart(): Int {
         return cartDao.addCart(Cart(dataStoreManager.getActiveUser(), CartStatus.PENDING)).toInt()
     }
 
@@ -36,7 +36,7 @@ class CartRepositoryImp @Inject constructor(
         cartDao.getPendingCart(dataStoreManager.getActiveUser())?.let {
             return it
         } ?: run {
-            return setCart()
+            return createNewPendingCart()
         }
     }
 

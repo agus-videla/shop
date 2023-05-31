@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.shop.databinding.ActivityStartBinding
 import com.example.shop.feature_authentication.presentation.AuthenticationActivity
+import com.example.shop.feature_authentication.presentation.LoggedOutDialogFragment
 
 class StartActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStartBinding
@@ -13,6 +14,10 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityStartBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        if(intent.hasExtra("SHOW_DIALOG")) {
+            LoggedOutDialogFragment().show(
+                supportFragmentManager, LoggedOutDialogFragment.TAG)
+        }
 
         binding.btnLogIn.setOnClickListener {
             val intent = Intent(this, AuthenticationActivity::class.java)

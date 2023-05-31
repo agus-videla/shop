@@ -3,7 +3,6 @@ package com.example.shop.feature_gondola.presentation.components
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.Toast
@@ -63,7 +62,6 @@ class GondolaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.onEach {
-            Log.d("stateflow", "something's changed...")
             binding.tvWishlist.visibility = it.wishlistVisibility
             initSortOrderButton(it.productOrder, it.sortIconId)
             initProductRecyclerView(it.products)

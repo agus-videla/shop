@@ -76,7 +76,7 @@ class LogInFragment : Fragment() {
 
     private fun startLogOutWorker() {
         val logOutRequest = OneTimeWorkRequestBuilder<LogOutWorker>()
-            .setInitialDelay(Duration.ofSeconds(10))
+            .setInitialDelay(Duration.ofSeconds(30))
             .build()
         val workManager = WorkManager.getInstance(this.requireContext())
         workManager

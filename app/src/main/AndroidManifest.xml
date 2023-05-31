@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gallery"
         tools:targetApi="31">
-        <!-- Removes workerManager startup configuration -->
+
+        <!-- Removes WorkerManager startup configuration to be able to customize it for Hilt -->
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
@@ -26,6 +27,7 @@
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
+
         <activity
             android:name=".core.presentation.MainActivity"
             android:exported="true">
@@ -51,13 +53,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".ui.ShippingActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
         <activity
             android:name=".core.presentation.ShopActivity"
             android:exported="false" />
