@@ -10,10 +10,10 @@ Como producto terminado no tiene una utilidad real pero durante su desarrollo me
 ## Capturas
 
 ![Sign Up](screenshots/sign-up.jpeg)
+![Profile Picture](screenshots/pp.jpeg)
 ![Products](screenshots/products.jpeg)
 ![Cart](screenshots/cart.jpeg)
 ![Session Expired](screenshots/session-expired.jpeg)
-
 
 ## Características
 
@@ -26,3 +26,9 @@ Como producto terminado no tiene una utilidad real pero durante su desarrollo me
 * **Actividades + XML**: Decidí utilizar XML en lugar de Compose porque es el sistema que se utiliza actualmente en la mayoría de las aplicaciones Android. Además, XML ofrece una alta grado de personalización y es fácil de modificar y mantener. Aunque Compose es una herramienta más moderna y potente, aún se encuentra en fase de desarrollo y no es tan ampliamente utilizada. 
 
 * **RecyclerViews**: La aplicación utiliza RecyclerViews para mostrar listas de datos de manera eficiente. Los RecyclerViews son más eficientes que los ListViews porque solo inflan el número necesario de titulares de vista necesarios para mostrar los datos en pantalla, en lugar de inflar todas las vistas de la lista de antemano. Esto ayuda a mejorar el rendimiento y suavidad de la aplicación.
+
+* **Unit Tests**: La aplicación incluye pruebas unitarias para verificar la corrección de los componentes individuales del código base. Estas pruebas ayudan a asegurar que la aplicación funcione como se pretende y pueden alertar a los desarrolladores sobre cualquier problema que pueda surgir. Al ejecutar estas pruebas de forma regular, los desarrolladores pueden detectar y solucionar problemas desde etapas tempranas, mejorando así la calidad y estabilidad de la aplicación.
+
+
+
+
